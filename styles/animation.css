@@ -1,0 +1,117 @@
+.shadow-swiper .swiper {
+  padding-bottom: 45px;
+  padding-top: 45px;
+}
+
+.container-pagination .swiper {
+  padding-bottom: 65px;
+}
+
+.container-pagination .swiper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  background-color: #cbcbcb;
+  opacity: 100;
+}
+
+.container-pagination .swiper .swiper-pagination-bullet-active {
+  background-color: #6ce4db;
+  width: 32px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
+.container-pagination-color .swiper {
+  padding-bottom: 65px;
+}
+
+.container-pagination-color .swiper .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  background-color: #cbcbcb;
+  opacity: 100;
+}
+
+.container-pagination-color .swiper .swiper-pagination-bullet-active {
+  background-color: #6ce4db;
+  width: 32px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+}
+
+body.dark .container-pagination-color .swiper .swiper-pagination-bullet {
+  background-color: #032934;
+}
+
+body.dark .container-pagination-color .swiper .swiper-pagination-bullet-active {
+  background-color: #6ce4db;
+}
+
+.marque-slider .swiper-wrapper {
+  -webkit-transition-timing-function: linear !important;
+  transition-timing-function: linear !important;
+}
+
+.marque-slider .swiper-slide {
+  width: 212px;
+}
+
+.swiper-types-btn .swiper-slide {
+  width: 140px;
+}
+
+.swiper-compony-list .swiper-slide {
+  width: 150px;
+}
+
+.swiper-newDrop .swiper-slide {
+  width: 400px;
+}
+
+.swiper-tokens-list .swiper-slide {
+  width: 101px;
+}
+
+.swiper-tokens-list .swiper-slide {
+  width: 101px;
+}
+
+.swiper-new-courrency .swiper-slide {
+  width: 209px;
+}
+
+.swiper-comments .swiper-slide {
+  width: 664px;
+}
+
+@media (max-width: 640px) {
+  .swiper-types-btn .swiper-slide {
+    width: 64px;
+  }
+
+  .swiper-newDrop .swiper-slide {
+    width: 257px;
+  }
+  .swiper-tokens-list .swiper-slide {
+    width: 30px;
+  }
+  .swiper-new-courrency .swiper-slide {
+    width: 198px;
+  }
+}

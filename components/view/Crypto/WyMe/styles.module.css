@@ -1,0 +1,16 @@
+.animationLine {
+  animation: lineAnimation 50s ease infinite;
+  -webkit-animation: lineAnimation 50s ease infinite;
+}
+
+@keyframes lineAnimation {
+  0% {
+    background-position: 0;
+  }
+  50% {
+    background-position: calc(100vw - 5px) calc(100vh - 5px);
+  }
+  100% {
+    background-position: 0;
+  }
+}
