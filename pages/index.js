@@ -7,7 +7,7 @@ function HomePage({ blogsData, cryptoData }) {
   return (
     <MainLayout>
       <Seo data={cryptoData?.data?.data?.seo} />
-      <Home blogs={blogsData?.data} crypto={cryptoData?.data} />
+      <Home blogs={blogsData?.data} crypto={cryptoData?.data?.data} />
     </MainLayout>
   );
 }

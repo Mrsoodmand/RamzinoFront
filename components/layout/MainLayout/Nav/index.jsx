@@ -13,6 +13,7 @@ import useFetcher from "hooks/useFetcher";
 function Nav() {
   const { get } = useFetcher(false);
   const [openSearch, setOpenSearch] = useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
   const [searchTab, setSearchTab] = useState("blogs");
   const [searchResult, setSearchResult] = useState(null);
   const boxRef = useRef(null);
@@ -21,7 +22,7 @@ function Nav() {
   useEffect(() => {
     function handleClickOutside(event) {
       if (boxRef.current && !boxRef.current.contains(event.target)) {
-        setOpenSearch(false); // 👈 state change when clicking outside
+        setOpenSearch(false);
       }
     }
 
@@ -31,6 +32,17 @@ function Nav() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (openSearch || openMenu) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [openSearch, openMenu]);
 
   const search = (text) => {
     if (searchTimeout.current) clearTimeout(searchTimeout.current);
@@ -45,16 +57,60 @@ function Nav() {
   };
   return (
     <div className="pb-[65px] sm:pb-[85px]">
-      <nav className="h-[65px] sm:h-[85px] w-full shadow-[0px_0px_74px_0px_#0000000A] bg-white z-10 fade-in fixed">
+      <div
+        onClick={() => {
+          setOpenSearch(false);
+          setOpenMenu(false);
+        }}
+        className={`${
+          openSearch || openMenu
+            ? "opacity-100"
+            : "opacity-0 pointer-events-none"
+        } fixed inset-0 z-[21] bg-black/10 backdrop-blur-sm`}
+      />
+      <nav className="h-[65px] sm:h-[85px] w-full shadow-[0px_0px_74px_0px_#0000000A] bg-white z-[22] fade-in fixed">
         <div className="container center-between h-full">
-          <button
-            title={"منو"}
-            className="border border-solid border-[#DFE0E1] rounded-md lg:rounded-lg w-[34px] xs:w-11 lg:w-[56px] h-[34px] xs:h-11 lg:h-[56px] hover:bg-themeColor dark:border-[#003E52] full-center md:hidden"
-          >
-            <AddIcon>
-              <IconMenu className="[&>path]:stroke-title" />
-            </AddIcon>
-          </button>
+          <div className="relative md:hidden">
+            <button
+              title={"منو"}
+              onClick={() => {
+                setOpenMenu((c) => !c);
+                if (!openMenu) setOpenSearch(false);
+              }}
+              className="border border-solid border-[#DFE0E1] rounded-md lg:rounded-lg w-[34px] xs:w-11 lg:w-[56px] h-[34px] xs:h-11 lg:h-[56px] hover:bg-themeColor dark:border-[#003E52] full-center"
+            >
+              <AddIcon>
+                <IconMenu className="[&>path]:stroke-title" />
+              </AddIcon>
+            </button>
+
+            <div
+              className={`${
+                openMenu ? "opacity-100 z-[23]" : "opacity-0 pointer-events-none"
+              } fixed left-3 right-3 top-[73px] rounded-lg bg-white dark:bg-[#2a758c] py-4 px-3.5 shadow-[0px_0px_75.05px_0px_#0000000A]`}
+            >
+              <ul className="flex flex-col gap-1">
+                {dataMenu?.map((e, i) => (
+                  <li key={i}>
+                    <Link
+                      href={e?.href}
+                      onClick={() => setOpenMenu(false)}
+                      className="block text-title dark:text-white font-semibold text-sm py-3 px-2.5 rounded-md hover:bg-themeColor dark:hover:bg-[#003E52]"
+                    >
+                      {e?.text}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="https://panel.ramzino.me/user/login"
+                onClick={() => setOpenMenu(false)}
+                className="mt-2 flex full-center bg-[linear-gradient(180deg,#4EDFD4_0%,#75FEF3_100%)] text-primaryText h-[48px] rounded-[10px] font-semibold text-sm"
+              >
+                ورود و ثبت نام
+              </Link>
+            </div>
+          </div>
           <div className="center gap-5 xl:gap-[49px]">
             <Link href="/">
               <img
@@ -105,6 +161,7 @@ function Nav() {
               <button
                 onClick={() => {
                   setOpenSearch(true);
+                  setOpenMenu(false);
                 }}
                 title="سرچ"
                 className="flex items-center justify-center border border-solid border-[#DFE0E1] rounded-[5px] lg:rounded-full w-[45px] h-[45px] hover:bg-themeColor dark:border-[#003E52]"
@@ -132,18 +189,19 @@ function Nav() {
                 </svg>
               </button>
 
-              <button
-                title="کاربر"
+              <Link
+                href="https://panel.ramzino.me/user/login"
+                title="ورود و ثبت نام"
                 className="border border-solid border-[#DFE0E1] rounded-md lg:rounded-lg w-[34px] xs:w-11 lg:w-[56px] h-[34px] xs:h-11 lg:h-[56px] hover:bg-themeColor dark:border-[#003E52] full-center lg:hidden"
               >
                 <AddIcon>
                   <IconUser className="[&>path]:stroke-title" />
                 </AddIcon>
-              </button>
+              </Link>
 
               <div
                 ref={boxRef}
-                className={`${openSearch ? "opacity-100 z-10" : "opacity-0 pointer-events-none"} absolute left-0 top-0 sm:-top-4 rounded-b-lg rounded-t-none bg-[#fff] dark:bg-[#2a758c] lg:rounded-lg py-4 px-3.5 w-full sm:w-[449px] min-h-[290px] sm:min-h-[308px]`}
+                className={`${openSearch ? "opacity-100 z-[23]" : "opacity-0 pointer-events-none"} fixed left-3 right-3 top-[73px] sm:absolute sm:left-0 sm:right-auto sm:top-0 sm:-top-4 rounded-lg bg-[#fff] dark:bg-[#2a758c] py-4 px-3.5 sm:w-[449px] min-h-[290px] sm:min-h-[308px] shadow-[0px_0px_75.05px_0px_#0000000A]`}
               >
                 <div className="center border border-solid border-[#DBDBDB]  rounded-[4px] h-[48px] w-full pl-3 sm:pl-3.5 pr-3">
                   <input
@@ -347,7 +405,7 @@ function Nav() {
               </div>
             </div>
 
-            <div className="hidden 2md:block">
+            <div>
               <DarkMode />
             </div>
           </div>

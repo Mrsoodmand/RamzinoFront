@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 :root {
   --toastify-font-family: var(--font-yekan) !important;
   --toastify-text-color-success: #53bb1e !important;
@@ -81,7 +91,7 @@ body {
   direction: rtl;
   font-family: var(--font-yekan);
   background-color: #fafafa;
-  font-weight: 500;
+  font-weight: 400;
   position: relative;
   max-width: 100vw;
   overflow-x: hidden;

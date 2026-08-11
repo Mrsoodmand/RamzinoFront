@@ -38,24 +38,27 @@ function Footer() {
   };
 
   const convertFooterData = (data) => {
-    return Object.values(data).map((section) => {
-      const list = Object.keys(section)
-        .filter((k) => k !== "title")
-        .sort((a, b) => Number(a) - Number(b))
-        .map((k) => ({
-          text: section[k].title,
-          href: section[k].url,
-        }));
+    return Object.values(data)
+      .filter((section) => section?.title)
+      .map((section) => {
+        const list = Object.keys(section)
+          .filter((k) => k !== "title")
+          .sort((a, b) => Number(a) - Number(b))
+          .map((k) => ({
+            text: section[k].title,
+            href: section[k].url,
+          }));
 
-      return {
-        title: section.title,
-        list,
-      };
-    });
+        return {
+          title: section.title,
+          list,
+        };
+      });
   };
 
   return (
     <div>
+      {/* دانلود اپلیکیشن رمزینو section - temporarily disabled
       <div className="mt-14 p-6 -mb-24">
         <h2 className=" text-2xl text-center sm:text-[35px] md:text-[45px] font-semibold mb-2.5 sm:mb-4 text-title leading-10 sm:leading-[50px]">
           دانلود اپلیکیشن رمزینو
@@ -105,6 +108,7 @@ function Footer() {
           </Link>
         </div>
       </div>
+      */}
 
       <div className="relative h-[400px] -top-[60px]">
         {/* BOTTOM CURVED GRADIENT */}

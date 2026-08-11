@@ -12,7 +12,7 @@ function Home({ blogs, crypto }) {
   return (
     <>
       <Header />
-      <Hottest data={crypto?.data?.hotCurrencies || []} />
+      <Hottest data={crypto?.hotCurrencies || []} />
       <Services />
       <FAQs />
       <BlogsSlider data={blogs?.blogs || []} />

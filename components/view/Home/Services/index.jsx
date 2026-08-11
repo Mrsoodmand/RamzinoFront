@@ -140,19 +140,26 @@ function Services() {
       </section>
 
       <section className="mt-32 container w-full sticky z-0 fade-in">
-        <div className="w-full flex items-center justify-between flex-col-reverse lg:flex-row overflow-visible bg-[#0A313D] rounded-[4px] sm:rounded-[12px] relative min-h-[400px]">
-          <div className="mt-[280px] lg:mt-0 relative z-10 px-4 md:px-[50px] py-5 sm:py-[36px] md:animate-fade-left animate-fade-up">
-            <h2 className="text-2xl text-center text-[#fff] lg:text-right sm:text-[34px] font-semibold leading-10 sm:leading-[50px]">
+        <div className="group w-full flex items-center justify-between flex-col-reverse lg:flex-row overflow-visible bg-[#0A313D] rounded-[4px] sm:rounded-[12px] relative min-h-[400px] transition-all duration-500 ease-out hover:-translate-y-1.5 hover:shadow-[0px_30px_90px_0px_rgba(109,244,241,0.3)]">
+          <div className="mt-[280px] lg:mt-0 relative z-10 px-4 md:px-[50px] py-5 sm:py-[36px]">
+            <h2
+              className="fade-in text-2xl text-center text-[#fff] lg:text-right sm:text-[34px] font-semibold leading-10 sm:leading-[50px]"
+              style={{ animationDelay: "0ms" }}
+            >
               اتصال درگاه پرداخت ارز دیجیتال به وب‌سایت
             </h2>
-            <span className="my-8 text-center lg:text-right text-[#CBCBCB] font-normal text-xs sm:text-base block max-w-[590px] mx-auto">
+            <span
+              className="fade-in my-8 text-center lg:text-right text-[#CBCBCB] font-normal text-xs sm:text-base block max-w-[590px] mx-auto"
+              style={{ animationDelay: "150ms" }}
+            >
               مشتریان شما می‌توانند از سراسر دنیا هزینه محصولات و خدمات را با
               رمزارز پرداخت کنند. ما دغدغه‌های فنی و تبدیل ارز را حل کرده‌ایم تا
               شما فقط روی فروش تمرکز کنید. سازگار با ووکامرس و تمامی سایت‌سازها.
             </span>
             <Link
               href="https://panel.ramzino.me/user/login"
-              className="mt-6 mx-auto lg:mx-0 text-center bg-[#6DF4F1] shadow-[0px_1.56px_67.11px_3.77px_#26BEB24D] w-[200px] text-base h-[55px] rounded-[5px] font-semibold glass text-black flex items-center justify-center"
+              className="fade-in mt-6 mx-auto lg:mx-0 text-center bg-[#6DF4F1] shadow-[0px_1.56px_67.11px_3.77px_#26BEB24D] w-[200px] text-base h-[55px] rounded-[5px] font-semibold glass text-black flex items-center justify-center transition-transform duration-300 hover:scale-105 active:scale-95"
+              style={{ animationDelay: "300ms" }}
             >
               ساخت درگاه جدید
             </Link>
@@ -170,7 +177,7 @@ function Services() {
             src={"/images/landing/vector-3.webp"}
             alt="عکس موبایل"
             layout="fixed"
-            className="z-20 absolute block left-1/2 -translate-x-1/2 -top-16 sm:-top-52 lg:-top-32 lg:left-12 lg:translate-x-0 mx-auto"
+            className="z-20 absolute block left-1/2 -translate-x-1/2 -top-16 sm:-top-52 lg:-top-32 lg:left-12 lg:translate-x-0 mx-auto transition-transform duration-500 ease-out group-hover:scale-105 group-hover:-rotate-2"
           />
         </div>
       </section>
@@ -183,7 +190,7 @@ function Services() {
         <div className="mt-20 grid grid-cols-12 gap-6 gap-y-16">
           <div className="col-span-12 lg:col-span-4">
             <div
-              className="relative z-10 px-6 bg-white dark:bg-[#02151B] rounded-lg shadow-[0px_0px_102.34px_0px_#0000000D] dark:shadow-[0px_0px_102.34px_0px_#0000000D] border-[0.97px] border-[#DFDFDF] dark:border-0 flex items-center justify-center flex-col"
+              className="group relative z-10 px-6 bg-white dark:bg-[#02151B] rounded-lg shadow-[0px_0px_102.34px_0px_#0000000D] dark:shadow-[0px_0px_102.34px_0px_#0000000D] border-[0.97px] border-[#DFDFDF] dark:border-0 flex items-center justify-center flex-col transition-all duration-300 ease-out cursor-pointer hover:-translate-y-2 hover:border-primary hover:shadow-[0px_20px_60px_0px_rgba(78,223,212,0.25)]"
               style={{
                 backgroundImage: "url('/images/landing/lines-bg.webp')",
                 backgroundRepeat: "no-repeat",
@@ -193,7 +200,7 @@ function Services() {
               <img
                 src="/images/landing/heart-vector.webp"
                 alt="heart-vector"
-                className="relative -top-8 h-[180px] object-cover"
+                className="relative -top-8 h-[180px] object-cover transition-transform duration-300 ease-out group-hover:scale-110 group-hover:-rotate-3"
               />
               <span className="-mt-4 text-2xl text-center font-semibold text-title leading-10">
                 پشتیبانی پاسخگو و مؤثر
@@ -207,7 +214,7 @@ function Services() {
           </div>
           <div className="col-span-12 lg:col-span-4">
             <div
-              className="relative z-10 px-6 bg-white dark:bg-[#02151B] rounded-lg shadow-[0px_0px_102.34px_0px_#0000000D] dark:shadow-[0px_0px_102.34px_0px_#0000000D] border-[0.97px] border-[#DFDFDF] dark:border-0 flex items-center justify-center flex-col"
+              className="group relative z-10 px-6 bg-white dark:bg-[#02151B] rounded-lg shadow-[0px_0px_102.34px_0px_#0000000D] dark:shadow-[0px_0px_102.34px_0px_#0000000D] border-[0.97px] border-[#DFDFDF] dark:border-0 flex items-center justify-center flex-col transition-all duration-300 ease-out cursor-pointer hover:-translate-y-2 hover:border-primary hover:shadow-[0px_20px_60px_0px_rgba(78,223,212,0.25)]"
               style={{
                 backgroundImage: "url('/images/landing/lines-bg.webp')",
                 backgroundRepeat: "no-repeat",
@@ -217,7 +224,7 @@ function Services() {
               <img
                 src="/images/landing/fee-vector.webp"
                 alt="hear-vector"
-                className="relative -top-8 h-[180px] object-cover"
+                className="relative -top-8 h-[180px] object-cover transition-transform duration-300 ease-out group-hover:scale-110 group-hover:rotate-3"
               />
               <span className="-mt-4 text-2xl text-center font-semibold text-title leading-10">
                 کارمزد رقابتی و شفاف
@@ -231,7 +238,7 @@ function Services() {
           </div>
           <div className="col-span-12 lg:col-span-4">
             <div
-              className="relative z-10 px-6 bg-white dark:bg-[#02151B] rounded-lg shadow-[0px_0px_102.34px_0px_#0000000D] dark:shadow-[0px_0px_102.34px_0px_#0000000D] border-[0.97px] border-[#DFDFDF] dark:border-0 flex items-center justify-center flex-col"
+              className="group relative z-10 px-6 bg-white dark:bg-[#02151B] rounded-lg shadow-[0px_0px_102.34px_0px_#0000000D] dark:shadow-[0px_0px_102.34px_0px_#0000000D] border-[0.97px] border-[#DFDFDF] dark:border-0 flex items-center justify-center flex-col transition-all duration-300 ease-out cursor-pointer hover:-translate-y-2 hover:border-primary hover:shadow-[0px_20px_60px_0px_rgba(78,223,212,0.25)]"
               style={{
                 backgroundImage: "url('/images/landing/lines-bg.webp')",
                 backgroundRepeat: "no-repeat",
@@ -241,7 +248,7 @@ function Services() {
               <img
                 src="/images/landing/emoji-vector.webp"
                 alt="hear-vector"
-                className="relative -top-8 h-[180px] object-cover"
+                className="relative -top-8 h-[180px] object-cover transition-transform duration-300 ease-out group-hover:scale-110 group-hover:-rotate-3"
               />
               <span className="-mt-4 text-2xl text-center font-semibold text-title leading-10">
                 سادگی در استفاده

@@ -15,7 +15,7 @@ function ItemFaq({ open, setOpen, i, data }) {
       >
         <div
           className={classes(
-            "text-[15px] sm:text-[18px] md:text-xl text-start dark:text-[#fff]",
+            "text-sm sm:text-base md:text-lg text-start dark:text-[#fff]",
             open === i
               ? "text-[#003E52] font-semibold"
               : "text-primaryText  font-medium"
@@ -34,7 +34,7 @@ function ItemFaq({ open, setOpen, i, data }) {
       </button>
       <p
         className={classes(
-          "text-primaryText dark:text-[#DFDFDF] text-sm sm:text-base md:text-[19px] overflow-hidden block px-3 sm:px-5 ",
+          "text-primaryText dark:text-[#DFDFDF] text-xs sm:text-sm md:text-base overflow-hidden block px-3 sm:px-5 ",
           open === i ? " max-h-screen pb-[17px] sm:pb-[28px]" : "max-h-0"
         )}
       >

@@ -24,7 +24,7 @@ function List({ faqs, categoryList }) {
   return (
     <section className="container my-[27px] sm:my-11">
       <div className="fade-in flex items-start flex-col 2md:flex-row gap-[39px] lg:gap-[26px]">
-        <div className="center 2md:hidden bg-[#EBECEC] dark:bg-[#032934] rounded-[7px] w-full h-[46px] overflow-auto none-scroll gap-1.5 px-2">
+        <div className="center 2md:hidden bg-themeColor dark:bg-[#032934] rounded-[7px] w-full h-[46px] overflow-auto none-scroll gap-1.5 px-2">
           {Object.values(categoryList || {})?.map((e, i) => (
             <button
               key={i}

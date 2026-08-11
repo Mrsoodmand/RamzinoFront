@@ -1,7 +1,6 @@
 import classes from "hooks/classes";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { MoonLoader } from "react-spinners";
 import { endLoading, startLoading } from "reduxStates/SettingSite/actions";
 import { Router } from "next/router";
 
@@ -27,13 +26,17 @@ function Loading() {
   return (
     <div
       className={classes(
-        "full-center fixed top-0 left-0 w-full h-full backdrop-blur-sm z-[100000] transition-medium bg-primary bg-opacity-75",
+        "full-center fixed top-0 left-0 w-full h-full backdrop-blur-sm z-[100000] transition-medium bg-white/80 dark:bg-[#0C0C0C]/85",
         setting.loading
           ? "pointer-events-auto opacity-1"
           : "pointer-events-none select-none opacity-0"
       )}
     >
-      <MoonLoader color="#fff" />
+      <img
+        src="/favi.webp"
+        alt=""
+        className="w-14 h-14 animate-logo-pulse motion-reduce:animate-none"
+      />
     </div>
   );
 }

@@ -28,8 +28,8 @@ function Comments({ post_id }) {
       get(
         `comment/list?type=blog&post_id=${post_id}&paginate=true&count=4&page=${page}`,
         (res) => {
-          const copy = { ...res?.data, ...data };
-          copy.comments = [...copy.comments, ...res?.data?.comments];
+          const copy = { ...res?.data?.data, ...data };
+          copy.comments = [...copy.comments, ...res?.data?.data?.comments];
           setData(copy);
         }
       );

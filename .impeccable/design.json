@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-01T14:12:10Z",
+  "title": "Design System: Ramzino",
+  "extensions": {
+    "colorMeta": {
+      "ramzino-mint": {
+        "role": "primary",
+        "displayName": "Ramzino Mint",
+        "canonical": "#4EDFD4",
+        "tonalRamp": ["#052E2B", "#0B4A45", "#12695F", "#1E8F82", "#35B6A8", "#4EDFD4", "#7BEAE1", "#B8F5EF"]
+      },
+      "deep-harbor-teal": {
+        "role": "primary-hover",
+        "displayName": "Deep Harbor Teal",
+        "canonical": "#2B758C",
+        "tonalRamp": ["#081A20", "#0F2C36", "#173F4D", "#1F5265", "#26647A", "#2B758C", "#5397A9", "#8FC0CC"]
+      },
+      "ink-title": {
+        "role": "text-heading",
+        "displayName": "Ink Title",
+        "canonical": "#0C0C0C",
+        "tonalRamp": ["#000000", "#0C0C0C", "#1F1F1F", "#3D3D3D", "#5C5C5C", "#8A8A8A", "#C2C2C2", "#F5F5F5"]
+      },
+      "charcoal-body": {
+        "role": "text-body",
+        "displayName": "Charcoal Body",
+        "canonical": "#383838",
+        "tonalRamp": ["#000000", "#171717", "#262626", "#383838", "#4A4A4A", "#6B6B6B", "#9E9E9E", "#DADADA"]
+      },
+      "surface-white": {
+        "role": "surface",
+        "displayName": "Surface White",
+        "canonical": "#FFFFFF",
+        "tonalRamp": ["#001F28", "#022A34", "#04424F", "#0A5A6B", "#3D7E8C", "#8FC0CC", "#D6EEF2", "#FFFFFF"]
+      },
+      "theme-tint": {
+        "role": "surface-hover",
+        "displayName": "Theme Tint",
+        "canonical": "#F5F5F5",
+        "tonalRamp": ["#001018", "#00202B", "#003647", "#0A4A5C", "#3D7E8C", "#B8D9DE", "#EDEDED", "#F5F5F5"]
+      },
+      "border-neutral": {
+        "role": "border",
+        "displayName": "Border Neutral",
+        "canonical": "#DFE0E1",
+        "tonalRamp": ["#001926", "#00293A", "#003E52", "#5A7580", "#9BA8AD", "#C7CDCF", "#DFE0E1", "#F2F2F2"]
+      },
+      "success-green": {
+        "role": "state-positive",
+        "displayName": "Success Green",
+        "canonical": "#45BD54",
+        "tonalRamp": ["#0A2E10", "#134A1B", "#1F6B29", "#2E8C39", "#3AAA47", "#45BD54", "#7CD787", "#B8ECBE"]
+      },
+      "danger-red": {
+        "role": "state-negative",
+        "displayName": "Danger Red",
+        "canonical": "#DC0000",
+        "tonalRamp": ["#2E0000", "#4D0000", "#750000", "#9E0000", "#C40000", "#DC0000", "#F04D4D", "#F9A3A3"]
+      }
+    },
+    "typographyMeta": {
+      "headline": { "displayName": "Headline", "purpose": "Page-level H1s. One per page, sets the topic." },
+      "body": { "displayName": "Body", "purpose": "Lead paragraphs and descriptive copy under a headline." },
+      "label": { "displayName": "Label", "purpose": "Card meta, tab labels, list items, price figures — the workhorse size." }
+    },
+    "shadows": [
+      { "name": "ambient-card", "value": "0px 0px 75px 0px rgba(0,0,0,0.04)", "purpose": "Standard elevation for cards and dropdown panels." },
+      { "name": "ambient-nav", "value": "0px 0px 74px 0px rgba(0,0,0,0.04)", "purpose": "Fixed top navigation." },
+      { "name": "ambient-medium", "value": "0px 0px 30px 2px rgba(0,0,0,0.1)", "purpose": "Stronger separation for elements over busy backgrounds (Tailwind shadow-medium)." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "all 0.5s ease", "purpose": "Default blanket transition used across buttons and interactive elements." },
+      { "name": "glass-shine", "value": "right 0.8s ease-in-out", "purpose": "Diagonal shine sweep on primary button hover." }
+    ],
+    "breakpoints": [
+      { "name": "xs", "value": "380px" },
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "2md", "value": "908px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" },
+      { "name": "2xl", "value": "1536px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single reserved CTA treatment: mint-to-aqua gradient with a diagonal glass-shine hover sweep.",
+      "html": "<button class=\"ds-btn-primary\">ثبت‌نام و شروع کنید</button>",
+      "css": ".ds-btn-primary { background: linear-gradient(180deg, #4EDFD4 0%, #75FEF3 100%); color: #404040; font-weight: 600; font-size: 16px; padding: 16px 24px; border: none; border-radius: 10px; cursor: pointer; position: relative; overflow: hidden; transition: background 0.5s ease; } .ds-btn-primary::before { content: \"\"; position: absolute; top: 0; right: 120%; width: 100%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 50%, rgba(255,255,255,0.3) 120%); transform: skewX(25deg); transition: right 0.8s ease-in-out; } .ds-btn-primary:hover::before { right: -125%; } .ds-btn-primary:hover { background: #2B758C; } .ds-btn-primary:focus-visible { outline: 2px solid #2B758C; outline-offset: 2px; }"
+    },
+    {
+      "name": "Icon Button",
+      "kind": "button",
+      "refersTo": "button-icon",
+      "description": "Circular bordered button for search/menu/user triggers in the nav.",
+      "html": "<button class=\"ds-btn-icon\" aria-label=\"جستجو\"><svg width=\"19\" height=\"19\" viewBox=\"0 0 19 19\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M7.76936 13.2082C10.773 13.2082 13.2079 10.7732 13.2079 7.76961C13.2079 4.76598 10.773 2.33105 7.76936 2.33105C4.76573 2.33105 2.33081 4.76598 2.33081 7.76961C2.33081 10.7732 4.76573 13.2082 7.76936 13.2082Z\" stroke=\"#373A41\" stroke-width=\"1.1654\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><path d=\"M11.6541 11.6543L16.3157 16.3159\" stroke=\"#373A41\" stroke-width=\"1.1654\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></button>",
+      "css": ".ds-btn-icon { width: 45px; height: 45px; border: 1px solid #DFE0E1; border-radius: 9999px; background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background-color 0.5s ease; } .ds-btn-icon:hover { background-color: #F5F5F5; } .ds-btn-icon:focus-visible { outline: 2px solid #2B758C; outline-offset: 2px; }"
+    },
+    {
+      "name": "Currency Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat, borderless list card used for currency/blog/news rankings. Depth from ambient shadow only.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-head\">محبوب‌ترین‌ها</div><div class=\"ds-card-row\"><span class=\"ds-card-name\">Tether</span><span class=\"ds-card-price\">$1.00</span><span class=\"ds-card-change\">+2.4%</span></div></div>",
+      "css": ".ds-card { background: #FFFFFF; box-shadow: 0px 0px 75px 0px rgba(0,0,0,0.04); border-radius: 5px; padding: 12px 16px; } .ds-card-head { font-weight: 600; font-size: 13px; color: #373A41; margin-bottom: 18px; display: flex; align-items: center; gap: 6px; } .ds-card-row { display: flex; align-items: center; justify-content: space-between; font-size: 13px; color: #373A41; font-weight: 600; } .ds-card-change { color: #45BD54; direction: ltr; }"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Bordered search field used inside the nav's search dropdown panel.",
+      "html": "<div class=\"ds-input-wrap\"><input class=\"ds-input\" type=\"text\" placeholder=\"جستجو خدمات و مقاله\" /></div>",
+      "css": ".ds-input-wrap { display: flex; align-items: center; border: 1px solid #DBDBDB; border-radius: 4px; height: 48px; padding: 0 14px; transition: border-color 0.3s ease, box-shadow 0.3s ease; } .ds-input { width: 100%; height: 100%; background: transparent; border: none; outline: none; font-size: 15px; color: #2D2D2D; } .ds-input::placeholder { color: #2D2D2D; } .ds-input-wrap:focus-within { border-color: #2B758C; box-shadow: 0 0 0 2px rgba(43,117,140,0.2); }"
+    },
+    {
+      "name": "Tab Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Segmented tab control used to switch result categories inside the search dropdown.",
+      "html": "<button class=\"ds-chip ds-chip-active\">مقالات (12)</button>",
+      "css": ".ds-chip { height: 35px; padding: 0 14px; border-radius: 7px; font-size: 13px; font-weight: 600; color: #2860E6; background: transparent; border: none; cursor: pointer; } .ds-chip-active { background: #2B758C; color: #fff; }"
+    },
+    {
+      "name": "Top Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Fixed top bar: logo, primary links, and the primary CTA, ambient-shadow separated from content.",
+      "html": "<nav class=\"ds-nav\"><div class=\"ds-nav-inner\"><span class=\"ds-nav-logo\">Ramzino</span><a class=\"ds-nav-link\" href=\"#\">درباره ما</a><a class=\"ds-nav-link\" href=\"#\">وبلاگ</a><button class=\"ds-btn-primary ds-nav-cta\">ورود و ثبت‌نام</button></div></nav>",
+      "css": ".ds-nav { background: #FFFFFF; box-shadow: 0px 0px 74px 0px rgba(0,0,0,0.04); height: 85px; } .ds-nav-inner { max-width: 1436px; margin: 0 auto; height: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; direction: rtl; gap: 24px; } .ds-nav-logo { font-weight: 700; font-size: 18px; color: #0C0C0C; } .ds-nav-link { font-size: 15px; color: #0C0C0C; font-weight: 500; text-decoration: none; } .ds-nav-cta { padding: 10px 24px; font-size: 15px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Ledger",
+    "overview": "Ramzino's public site is where a merchant decides whether to trust the platform with their revenue, before they ever see a balance or a withdrawal button. The system reads like a well-kept ledger: precise, unhurried, legible at a glance. Every surface is quiet by default — flat, softly lit, no directional shadow pretending to be a physical object — and the one permitted flourish, a diagonal glass-shine sweep on the primary CTA, exists only to mark the single action that matters on a page. This system explicitly rejects crypto-casino energy: no neon gradients beyond the single mint-to-aqua CTA treatment, no coin animations, no hype charts, no moon/rocket motion. Money software doesn't perform excitement; it earns trust through restraint. The palette stays cool and narrow — mint, teal, ink, charcoal — so that when the interface does move (a hover, a glass-shine, a search panel sliding open) it reads as considered rather than decorative. The interface is Persian-first and RTL-native: layouts, icon direction, and search UI are built RTL and mirror — not translate — into English/LTR. Corner radii stay small (4–10px) and consistent; nothing here is playfully rounded or aggressively squared.",
+    "keyCharacteristics": [
+      "Flat surfaces lit only by soft, wide, near-invisible ambient shadows",
+      "A narrow cool palette: mint accent, deep teal for depth, ink/charcoal for text, no warm hues",
+      "Small, consistent corner radii (4–10px) across buttons, inputs, and cards",
+      "One reserved moment of shine (the glass-sweep hover) on primary actions only",
+      "RTL-native layout that mirrors faithfully into English/LTR"
+    ],
+    "rules": [
+      { "name": "The One Accent Rule", "body": "Ramzino Mint is the only saturated color in the interface. If a second saturated accent seems needed, the answer is more contrast or weight on existing ink/charcoal, not a second hue.", "section": "colors" },
+      { "name": "The One-Family Rule", "body": "Every weight of hierarchy comes from Yekan. A second typeface anywhere in the product is a mistake, not a design decision.", "section": "typography" },
+      { "name": "The No-Hard-Shadow Rule", "body": "If a shadow has a visible offset or a hard edge, it doesn't belong in this system. Every shadow here is wide, soft, and nearly invisible until you look for it.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep Ramzino Mint as the only saturated accent in the system; everything else is ink, charcoal, teal, or near-white.",
+      "Do use wide, soft, near-zero-opacity ambient shadows for elevation; never a hard directional drop shadow.",
+      "Do keep corner radii small and role-specific: ~4px inputs, ~5px cards, 7–10px buttons.",
+      "Do build RTL-first and verify genuine mirroring into English/LTR — icon direction, number formatting, and directional affordances included.",
+      "Do add a visible :focus-visible treatment to any new input or interactive element; don't repeat the current bare outline-none gap."
+    ],
+    "donts": [
+      "Don't introduce crypto-casino flash: neon gradients beyond the single mint CTA treatment, coin animations, hype charts, or moon/rocket motion.",
+      "Don't add a second typeface. Yekan carries the entire hierarchy by weight and size alone.",
+      "Don't put a border on a card. Cards signal depth through the ambient shadow, never a stroke.",
+      "Don't let body or label text drop to a lighter gray \"for elegance\" — Charcoal Body and Ink Title are already tuned for contrast.",
+      "Don't style the dark-mode active tab/chip state without also defining its light-mode equivalent."
+    ]
+  }
+}

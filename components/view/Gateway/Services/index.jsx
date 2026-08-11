@@ -22,10 +22,15 @@ function Services() {
   return (
     <div className="">
       <section className="container mx-auto py-16 fade-in">
-        <h3 className="px-4 mt-12 text-center w-full text-[#0C0C0C] dark:text-[#fff] text-2xl md:text-[34px] font-black mb-5">
+        <h3
+          className="opacity-0 animate-fade-in-up px-4 mt-12 text-center w-full text-[#0C0C0C] dark:text-[#fff] text-2xl md:text-[34px] font-black mb-5"
+        >
           چرا کسب‌وکارهای موفق رمزینو را انتخاب می‌کنند؟
         </h3>
-        <span className="block mb-14 px-6 text-center text-lg dark:text-[#ffffff90]">
+        <span
+          className="opacity-0 animate-fade-in-up block mb-14 px-6 text-center text-lg dark:text-[#ffffff90]"
+          style={{ animationDelay: "120ms" }}
+        >
           ما فقط یک درگاه نیستیم؛ شریک تجاری شماییم. مجموعه‌ای از ابزارهای
           حرفه‌ای که دغدغه دریافت پول، تسویه حساب و امنیت را برای همیشه از ذهن
           شما پاک می‌کند.
@@ -33,7 +38,10 @@ function Services() {
         <div className="grid grid-cols-12 gap-8">
           <div className="col-span-full lg:col-span-8">
             <div className="flex items-center flex-col sm:flex-row justify-between gap-4">
-              <div className="w-full bg-[#fff] dark:bg-[#02151B] overflow-hidden relative md:max-w-[400px] mx-auto grow flex flex-col justify-center items-center py-8 px-4 gap-6 rounded-lg border-[0.98px] border-[#DFDFDF] dark:border-0 z-10 shadow-[0px_0px_103.41px_0px_#0000000D]">
+              <div
+                className="opacity-0 animate-fade-in-up w-full bg-[#fff] dark:bg-[#02151B] overflow-hidden relative md:max-w-[400px] mx-auto grow flex flex-col justify-center items-center py-8 px-4 gap-6 rounded-lg border-[0.98px] border-[#DFDFDF] dark:border-0 z-10 shadow-[0px_0px_103.41px_0px_#0000000D]"
+                style={{ animationDelay: "240ms" }}
+              >
                 <img
                   src="/images/landing/lines-bg.webp"
                   alt=""
@@ -52,7 +60,10 @@ function Services() {
                   className="w-full -mt-[20px] h-[210px]"
                 />
               </div>
-              <div className="w-full bg-[#fff] dark:bg-[#02151B] overflow-hidden relative md:max-w-[400px] mx-auto grow flex flex-col justify-center items-center py-8 px-4 gap-6 rounded-lg border-[0.98px] border-[#DFDFDF] dark:border-0 z-10 shadow-[0px_0px_103.41px_0px_#0000000D]">
+              <div
+                className="opacity-0 animate-fade-in-up w-full bg-[#fff] dark:bg-[#02151B] overflow-hidden relative md:max-w-[400px] mx-auto grow flex flex-col justify-center items-center py-8 px-4 gap-6 rounded-lg border-[0.98px] border-[#DFDFDF] dark:border-0 z-10 shadow-[0px_0px_103.41px_0px_#0000000D]"
+                style={{ animationDelay: "380ms" }}
+              >
                 <img
                   src="/images/landing/lines-bg.webp"
                   alt=""
@@ -74,7 +85,10 @@ function Services() {
               </div>
             </div>
             <div className="mt-6 w-full grow">
-              <div className="flex flex-col-reverse bg-[#fff] dark:bg-[#0B252D] overflow-hidden border-[0.98px] border-[#DFDFDF] dark:border-0 z-10 shadow-[0px_0px_103.41px_0px_#0000000D] lg:flex-row items-center justify-center flex-wrap lg:flex-nowrap gap-6 lg:gap-20 rounded-lg relative py-6 px-8">
+              <div
+                className="opacity-0 animate-fade-in-up flex flex-col-reverse bg-[#fff] dark:bg-[#0B252D] overflow-hidden border-[0.98px] border-[#DFDFDF] dark:border-0 z-10 shadow-[0px_0px_103.41px_0px_#0000000D] lg:flex-row items-center justify-center flex-wrap lg:flex-nowrap gap-6 lg:gap-20 rounded-lg relative py-6 px-8"
+                style={{ animationDelay: "520ms" }}
+              >
                 <div className="">
                   <h2 className="text-2xl text-center lg:text-right sm:text-[24px] font-semibold mb-2.5 sm:mb-4 text-title leading-10 sm:leading-[50px]">
                     اتصال سریع به وب‌سایت
@@ -85,7 +99,7 @@ function Services() {
                     کمتر از ۱۰ دقیقه فعال می‌شود.
                   </span>
                   <Link
-                    href="https://panel.ramzino.me/user/login"
+                    href="https://ramzino.me/docs"
                     className="mt-8 lg:mt-4 mx-auto lg:mx-0 text-center bg-primaryDark w-[190px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
                   >
                     مشاهده مستندات فنی
@@ -102,7 +116,10 @@ function Services() {
           </div>
           <div className="col-span-full lg:col-span-4">
             <div className="w-full h-full grow">
-              <div className="w-full h-full bg-[#fff] dark:bg-[#02151B] overflow-hidden relative mx-auto grow flex flex-col justify-center items-center py-8 px-4 gap-6 rounded-lg border-[0.98px] border-[#DFDFDF] dark:border-0 z-10 shadow-[0px_0px_103.41px_0px_#0000000D]">
+              <div
+                className="opacity-0 animate-fade-in-up w-full h-full bg-[#fff] dark:bg-[#02151B] overflow-hidden relative mx-auto grow flex flex-col justify-center items-center py-8 px-4 gap-6 rounded-lg border-[0.98px] border-[#DFDFDF] dark:border-0 z-10 shadow-[0px_0px_103.41px_0px_#0000000D]"
+                style={{ animationDelay: "300ms" }}
+              >
                 <img
                   src="/images/landing-old/pos-lines-bg.svg"
                   alt=""
@@ -137,11 +154,16 @@ function Services() {
       <section className="mt-20 lg:mt-40 p-1 relative fade-in dark:bg-[linear-gradient(135deg,#083C47_0%,#0C4E58_28%,#0F6469_50%,#137C7A_72%,#1A8F86_100%)] bg-[radial-gradient(120%_160%_at_50%_110%,rgba(178,255,255,0.85)_0%,rgba(178,255,255,0)_55%),linear-gradient(135deg,#1BB3B4_0%,#24BFC0_16%,#37CDCC_30%,#5FE8E7_48%,#69EFEE_58%,#8FFFFF_78%,#A0FFFF_100%)]">
         <section className="container w-full sticky z-0 fade-in">
           <div className="w-full flex items-center justify-between flex-col-reverse lg:flex-row overflow-visible rounded-[4px] sm:rounded-[12px] relative min-h-[400px]">
-            <div className="mt-[350px] lg:mt-0 z-10 px-4 md:px-[50px] md:animate-fade-left animate-fade-up">
-              <h2 className="text-2xl text-center text-[#000] dark:text-[#fff] lg:text-right sm:text-[38px] font-semibold leading-10 sm:leading-[50px]">
+            <div className="mt-[350px] lg:mt-0 z-10 px-4 md:px-[50px]">
+              <h2
+                className="opacity-0 animate-fade-in-up text-2xl text-center text-[#000] dark:text-[#fff] lg:text-right sm:text-[38px] font-semibold leading-10 sm:leading-[50px]"
+              >
                 مدیریت جریان نقدینگی با تسویه آنی
               </h2>
-              <span className="my-8 text-center lg:text-right text-[#000] dark:text-[#fff] font-normal text-xs sm:text-base block max-w-[570px]">
+              <span
+                className="opacity-0 animate-fade-in-up my-8 text-center lg:text-right text-[#000] dark:text-[#fff] font-normal text-xs sm:text-base block max-w-[570px]"
+                style={{ animationDelay: "150ms" }}
+              >
                 پول شما، قوانین شما. برخلاف درگاه‌های سنتی، در رمزینو نیازی به
                 انتظار طولانی نیست. درآمد حاصل از فروش را در لحظه به تتر تبدیل
                 کنید یا طبق سیکل منظم پایا، معادل ریالی آن را در حساب بانکی خود
@@ -149,7 +171,8 @@ function Services() {
               </span>
               <Link
                 href="https://panel.ramzino.me/user/login"
-                className="lg:mx-0 text-center bg-[#2B758C] !text-[#fff] shadow-[0px_1.56px_67.11px_3.77px_#26BEB24D] w-[190px] text-base h-[50px] rounded-[10px] font-semibold glass text-black flex items-center justify-center"
+                className="opacity-0 animate-fade-in-up lg:mx-0 text-center bg-[#2B758C] !text-[#fff] shadow-[0px_1.56px_67.11px_3.77px_#26BEB24D] w-[190px] text-base h-[50px] rounded-[10px] font-semibold glass text-black flex items-center justify-center"
+                style={{ animationDelay: "300ms" }}
               >
                 شروع فعالیت
               </Link>
@@ -187,10 +210,15 @@ function Services() {
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(15%_65%_at_-5%_105%,#bffbfb_0%,#dfffff_35%,rgba(255,255,255,0)_70%)] dark:hidden" />
 
         <div className="lg:mt-0">
-          <h2 className="text-2xl text-center lg:text-right sm:text-[34px] font-semibold mb-2.5 sm:mb-4 text-title leading-10 sm:leading-[50px]">
+          <h2
+            className="opacity-0 animate-fade-in-up text-2xl text-center lg:text-right sm:text-[34px] font-semibold mb-2.5 sm:mb-4 text-title leading-10 sm:leading-[50px]"
+          >
             پلی میان فروشگاه شما و اقتصاد دیجیتال
           </h2>
-          <span className="mt-8 text-center lg:text-right text-[#383838] dark:text-[#CBCBCB] font-normal text-xs sm:text-base block max-w-[570px]">
+          <span
+            className="opacity-0 animate-fade-in-up mt-8 text-center lg:text-right text-[#383838] dark:text-[#CBCBCB] font-normal text-xs sm:text-base block max-w-[570px]"
+            style={{ animationDelay: "150ms" }}
+          >
             دسترسی به ویزا کارت یا پی‌پل برای کسب‌وکارهای ایرانی دشوار است؛ اما
             رمزینو این خلاء را پر کرده است. ما استانداردهای پرداخت بین‌المللی را
             با تکنولوژی بلاکچین شبیه‌سازی کرده‌ایم تا فروشگاه شما هیچ‌چیز از
@@ -198,7 +226,8 @@ function Services() {
           </span>
           <Link
             href="https://panel.ramzino.me/user/login"
-            className="mt-8 mx-auto lg:mx-0 text-center bg-primaryDark w-[190px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+            className="opacity-0 animate-fade-in-up mt-8 mx-auto lg:mx-0 text-center bg-primaryDark w-[190px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+            style={{ animationDelay: "300ms" }}
           >
             شروع فروش جهانی{" "}
           </Link>
@@ -209,10 +238,15 @@ function Services() {
         <div className="bg-[#fff] dark:bg-[#08242D] border border-[#EAEAEA] dark:border-[#254955] rounded-lg grid grid-cols-12 gap-4">
           {activeTab === "1" ? (
             <div className="col-span-full lg:col-span-5 p-6 flex flex-col justify-center h-full">
-              <h2 className="text-2xl text-center lg:text-right sm:text-[32px] font-semibold text-title leading-10 sm:leading-[50px]">
+              <h2
+                className="opacity-0 animate-fade-in-up text-2xl text-center lg:text-right sm:text-[32px] font-semibold text-title leading-10 sm:leading-[50px]"
+              >
                 راهکاری منعطف برای انواع فروشگاه
               </h2>
-              <span className="mt-4 text-center lg:text-right text-[#757878] dark:text-[#CBCBCB] font-normal text-xs sm:text-base block">
+              <span
+                className="opacity-0 animate-fade-in-up mt-4 text-center lg:text-right text-[#757878] dark:text-[#CBCBCB] font-normal text-xs sm:text-base block"
+                style={{ animationDelay: "150ms" }}
+              >
                 فرقی نمی‌کند کالای فیزیکی می‌فروشید، فایل دانلودی یا خدمات
                 آنلاین؛ زیرساخت رمزینو با مقیاس کسب‌وکارتان هماهنگ می‌شود و
                 ابزارهای لازم برای مدیریت فروش را در اختیارتان می‌گذارد.
@@ -408,7 +442,8 @@ function Services() {
 
               <Link
                 href="https://panel.ramzino.me/user/login"
-                className="mt-6 mx-auto lg:mx-0 text-center bg-primaryDark w-[190px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+                className="opacity-0 animate-fade-in-up mt-6 mx-auto lg:mx-0 text-center bg-primaryDark w-[190px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+                style={{ animationDelay: "300ms" }}
               >
                 ساخت درگاه فروشگاهی
               </Link>
@@ -417,10 +452,15 @@ function Services() {
 
           {activeTab === "2" ? (
             <div className="col-span-full lg:col-span-5 p-6 flex flex-col justify-center h-full">
-              <h2 className="text-2xl text-center lg:text-right sm:text-[32px] font-semibold text-title leading-10 sm:leading-[50px]">
+              <h2
+                className="opacity-0 animate-fade-in-up text-2xl text-center lg:text-right sm:text-[32px] font-semibold text-title leading-10 sm:leading-[50px]"
+              >
                 حفاظ امنیتی چندلایه برای تراکنش‌ها
               </h2>
-              <span className="mt-4 text-center lg:text-right text-[#757878] dark:text-[#CBCBCB] font-normal text-xs sm:text-base block">
+              <span
+                className="opacity-0 animate-fade-in-up mt-4 text-center lg:text-right text-[#757878] dark:text-[#CBCBCB] font-normal text-xs sm:text-base block"
+                style={{ animationDelay: "150ms" }}
+              >
                 امنیت خط قرمز ماست. تمام تراکنش‌ها بر بستر بلاکچین و با
                 پروتکل‌های رمزنگاری پیشرفته انجام می‌شوند. دارایی‌های شما در کیف
                 پول‌های سرد (Cold Storage) نگهداری می‌شوند تا از هرگونه نفوذ
@@ -617,7 +657,8 @@ function Services() {
 
               <Link
                 href="/about-us"
-                className="mt-6 mx-auto lg:mx-0 text-center bg-primaryDark w-[210px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+                className="opacity-0 animate-fade-in-up mt-6 mx-auto lg:mx-0 text-center bg-primaryDark w-[210px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+                style={{ animationDelay: "300ms" }}
               >
                 بررسی استانداردهای امنیتی
               </Link>
@@ -626,10 +667,15 @@ function Services() {
 
           {activeTab === "3" ? (
             <div className="col-span-full lg:col-span-5 p-6 flex flex-col justify-center h-full">
-              <h2 className="text-2xl text-center lg:text-right sm:text-[32px] font-semibold text-title leading-10 sm:leading-[50px]">
+              <h2
+                className="opacity-0 animate-fade-in-up text-2xl text-center lg:text-right sm:text-[32px] font-semibold text-title leading-10 sm:leading-[50px]"
+              >
                 کاهش هزینه‌ها، افزایش حاشیه سود
               </h2>
-              <span className="mt-4 text-center lg:text-right text-[#757878] dark:text-[#CBCBCB] font-normal text-xs sm:text-base block">
+              <span
+                className="opacity-0 animate-fade-in-up mt-4 text-center lg:text-right text-[#757878] dark:text-[#CBCBCB] font-normal text-xs sm:text-base block"
+                style={{ animationDelay: "150ms" }}
+              >
                 مدل درآمدی ما شفاف است. خبری از هزینه‌های پنهان، آبونمان سالانه
                 یا هزینه راه‌اندازی نیست. ما فقط درصد ناچیزی از تراکنش‌های
                 موفق&rdquo; را به عنوان کارمزد کسر می‌کنیم تا سود شما حداکثر
@@ -826,7 +872,8 @@ function Services() {
 
               <Link
                 href="/fee/deal"
-                className="mt-6 mx-auto lg:mx-0 text-center bg-primaryDark w-[190px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+                className="opacity-0 animate-fade-in-up mt-6 mx-auto lg:mx-0 text-center bg-primaryDark w-[190px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+                style={{ animationDelay: "300ms" }}
               >
                 مشاهده تعرفه‌ها
               </Link>
@@ -971,7 +1018,7 @@ function Services() {
               </div>
             </div>
           </div>
-          <div className="col-span-full lg:col-span-5">
+          <div className="opacity-0 animate-fade-in-up col-span-full lg:col-span-5" style={{ animationDelay: "200ms" }}>
             <img
               src="/images/landing/pick-card.webp"
               alt="pikc-card"
@@ -988,18 +1035,23 @@ function Services() {
 
       <section className="mt-20 p-1 relative fade-in">
         <div className="flex">
-          <span className="rounded-2xl px-4 py-2 mx-auto flex items-center justify-center bg-[#EFEFEF] dark:bg-[#0D2D37] dark:text-[#fff] font-semibold">
+          <span className="opacity-0 animate-fade-in-up rounded-2xl px-4 py-2 mx-auto flex items-center justify-center bg-[#EFEFEF] dark:bg-[#0D2D37] dark:text-[#fff] font-semibold">
             راهنمای اتصال{" "}
           </span>
         </div>
 
-        <h2 className="mt-10 text-center w-full text-2xl md:text-[32px] font-semibold dark:text-[#fff] mb-5">
+        <h2
+          className="opacity-0 animate-fade-in-up mt-10 text-center w-full text-2xl md:text-[32px] font-semibold dark:text-[#fff] mb-5"
+          style={{ animationDelay: "120ms" }}
+        >
           شروع درآمدزایی ارزی، فقط در ۳ مرحله{" "}
         </h2>
 
         <div className="mt-12 w-[100vw] flex items-center lg:justify-center gap-20 overflow-auto relative z-10">
           <div className="absolute right-0 top-[25px] w-full h-1 border-t-2 border-[#B4B4B4] border-dashed dark:border-[#ffffff90] -z-10" />
-          <div className="flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink">
+          <div
+            className="opacity-0 animate-fade-in-up flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink"
+          >
             <div className="w-[65px] h-[65px] rounded-full flex items-center justify-center bg-[radial-gradient(288.22%_288.22%_at_49.92%_50%,#16B3A7_0%,#2B758C_55%)] border border-[#EEEEEE]">
               <svg
                 width="33"
@@ -1069,7 +1121,10 @@ function Services() {
             </p>
           </div>
 
-          <div className="flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink">
+          <div
+            className="opacity-0 animate-fade-in-up flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink"
+            style={{ animationDelay: "150ms" }}
+          >
             <div className="w-[65px] h-[65px] rounded-full flex items-center justify-center bg-[#fff] border border-[#EEEEEE] dark:bg-[#1E333A] dark:border-0">
               <svg
                 width="42"
@@ -1155,7 +1210,10 @@ function Services() {
             </p>
           </div>
 
-          <div className="flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink">
+          <div
+            className="opacity-0 animate-fade-in-up flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink"
+            style={{ animationDelay: "300ms" }}
+          >
             <div className="w-[65px] h-[65px] rounded-full flex items-center justify-center bg-[#fff] border border-[#EEEEEE] dark:bg-[#1E333A] dark:border-0">
               <svg
                 width="66"
@@ -1259,17 +1317,23 @@ function Services() {
 
           <div className="flex flex-col-reverse lg:flex-row items-center justify-evenly flex-wrap lg:flex-nowrap gap-6 lg:gap-20">
             <div className="">
-              <h2 className="text-2xl text-center lg:text-right sm:text-[34px] font-semibold text-title leading-10 sm:leading-[50px]">
+              <h2
+                className="opacity-0 animate-fade-in-up text-2xl text-center lg:text-right sm:text-[34px] font-semibold text-title leading-10 sm:leading-[50px]"
+              >
                 مستندات فنی و راهنمای یکپارچه‌سازی
               </h2>
-              <span className="my-6 text-center lg:text-right text-[#0E0F1B] dark:text-[#CBCBCB] font-normal text-xs sm:text-base block max-w-[570px]">
+              <span
+                className="opacity-0 animate-fade-in-up my-6 text-center lg:text-right text-[#0E0F1B] dark:text-[#CBCBCB] font-normal text-xs sm:text-base block max-w-[570px]"
+                style={{ animationDelay: "150ms" }}
+              >
                 هر آنچه برای اتصال به شبکه پرداخت رمزینو نیاز دارید، یکجا
                 گردآوری شده است. از نمونه کدهای کاربردی برای زبان‌های مختلف تا
                 راهنمای جامع متدها؛ مسیری شفاف برای توسعه‌دهندگان.
               </span>
               <Link
-                href="https://panel.ramzino.me/user/login"
-                className="mx-auto lg:mx-0 text-center bg-primaryDark w-[190px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+                href="https://ramzino.me/docs"
+                className="opacity-0 animate-fade-in-up mx-auto lg:mx-0 text-center bg-primaryDark w-[190px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+                style={{ animationDelay: "300ms" }}
               >
                 مستندات فنی{" "}
               </Link>
@@ -1335,10 +1399,15 @@ function Services() {
       </section>
 
       <section className="mt-20 w-full full-center flex-col pt-5 relative overflow-hidden fade-in">
-        <h3 className="px-4 text-center w-full text-[#0C0C0C] dark:text-[#fff] text-2xl md:text-[34px] font-black mb-5">
+        <h3
+          className="opacity-0 animate-fade-in-up px-4 text-center w-full text-[#0C0C0C] dark:text-[#fff] text-2xl md:text-[34px] font-black mb-5"
+        >
           بهترین ارز های دیجیتال
         </h3>
-        <span className="block mb-14 px-6 text-center text-lg dark:text-[#ffffff90]">
+        <span
+          className="opacity-0 animate-fade-in-up block mb-14 px-6 text-center text-lg dark:text-[#ffffff90]"
+          style={{ animationDelay: "120ms" }}
+        >
           بله؛ در حال حاضر خرید و فروش بیت کوین در بیشتر صرافی‌های ایرانی و
           خارجی نیازمند احراز هویت است. در{" "}
         </span>
@@ -1392,7 +1461,7 @@ function Services() {
           className="absolute right-0 top-20 max-w-[400px] w-[30vw]"
         />
         <div className="flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink mx-auto">
-          <div className="w-[75px] h-[75px] rounded-full flex items-center justify-center bg-[#67CCCB] dark:bg-[#67CCCB]">
+          <div className="opacity-0 animate-fade-in-up w-[75px] h-[75px] rounded-full flex items-center justify-center bg-[#67CCCB] dark:bg-[#67CCCB]">
             <svg
               width="41"
               height="41"
@@ -1419,19 +1488,26 @@ function Services() {
             </svg>
           </div>
 
-          <span className="text-center text-2xl md:text-[35px] font-semibold mt-4 dark:text-[#fff]">
+          <span
+            className="opacity-0 animate-fade-in-up text-center text-2xl md:text-[35px] font-semibold mt-4 dark:text-[#fff]"
+            style={{ animationDelay: "120ms" }}
+          >
             دریافت ایردراپ رایگان{" "}
           </span>
 
-          <p className="text-center max-w-[290px] mx-auto dark:text-[#fff]">
+          <p
+            className="opacity-0 animate-fade-in-up text-center max-w-[290px] mx-auto dark:text-[#fff]"
+            style={{ animationDelay: "220ms" }}
+          >
             با عضویت در شبکه های اجتماعی کیف پول به صورت روزانه کد ایرداپ دریافت
             کرده و ارز دیجیتال هدیه بگیرید
           </p>
 
           <Link
             href={"#"}
-            className="flex items-center justify-center gap-4 bg-[#2B758C] rounded-lg px-6 w-full py-4 shadow-[0px_0px_0px_1.21px_#151514,0px_1.21px_2.42px_1.21px_#15151466,inset_0px_1.81px_0px_0px_#FFFFFF33]
+            className="opacity-0 animate-fade-in-up flex items-center justify-center gap-4 bg-[#2B758C] rounded-lg px-6 w-full py-4 shadow-[0px_0px_0px_1.21px_#151514,0px_1.21px_2.42px_1.21px_#15151466,inset_0px_1.81px_0px_0px_#FFFFFF33]
 "
+            style={{ animationDelay: "340ms" }}
           >
             <span className="text-xl text-[#fff]">شروع دریافت</span>
             <svg
@@ -1458,7 +1534,10 @@ function Services() {
             </svg>
           </Link>
 
-          <div className="w-full flex items-center justify-center gap-6">
+          <div
+            className="opacity-0 animate-fade-in-up w-full flex items-center justify-center gap-6"
+            style={{ animationDelay: "460ms" }}
+          >
             <Link
               href={"#"}
               className="flex items-center justify-center gap-4 bg-[#42B9B7] rounded-lg px-6 w-full py-4 grow md:grow-0"

@@ -106,9 +106,10 @@ function MyApp(props) {
         <meta name="robots" content="noindex" />
 
         {/* favicon  */}
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="icon" type="image/x-icon" href="/images/favi.webp" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/favi.webp" />
-        <link rel="icon" type="image/png" sizes="512x512" href="/favi.webp" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icons/192.webp" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/icons/512.webp" />
         <link rel="manifest" href="/manifest.json" />
         <link rel="mask-icon" href="/icons/70.svg" color="#1c1c1c" />
         <meta name="msapplication-config" content="/browserconfig.xml" />

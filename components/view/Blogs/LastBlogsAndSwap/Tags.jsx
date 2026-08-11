@@ -9,7 +9,7 @@ const IconBlog = dynamic(
 
 export const Tag = ({ data }) => (
   <Link
-    href={`/currency/${data?.slug}`}
+    href={`/tags/${data?.slug}`}
     className="bg-white rounded-[10px] col-span-6 center gap-2.5 h-[61px] sm:h-[76px] px-7 hover:opacity-80 max-w-[48%] sm:max-w-none"
   >
     <Image

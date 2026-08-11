@@ -16,7 +16,7 @@ function SingleBlog({ pageData }) {
             href: "/blogs",
           },
           {
-            text: "راهنمای کامل اندیکاتور شاخص میانگین جهت دار در تریدینگ ویو",
+            text: pageData?.data?.blog?.title || "مقاله",
             href: "#",
           },
         ]}

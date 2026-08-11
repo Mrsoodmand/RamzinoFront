@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ItemFaq from "components/common/Faqs/ItemFaq";
 import classes from "hooks/classes";
 import dynamic from "next/dynamic";
@@ -138,77 +138,31 @@ function FAQs() {
     <div className="mt-12 p-1 relative container fade-in">
       <div className="flex flex-col lg:flex-row gap-20 w-full">
         <div className="w-full grow">
-          <span className="block mt-4 text-right text-[#383838] dark:text-[#CBCBCB] font-normal text-xs sm:text-base">
-            سوالات متداول
-          </span>
-          <h2 className="block mt-8 text-2xl text-right font-semibold text-title leading-10 sm:leading-[50px]">
+          <h2 className="block text-2xl text-right font-semibold text-title leading-10 sm:leading-[50px]">
             سوالات متداول کاربران از ما
           </h2>
 
-          <div className="mt-8">
+          <ul className="mt-8">
             {FAQsList?.map((item, index) => (
-              <div
-                className="border-b border-solid border-[#D9D9D9] dark:border-[#0F3F4E] mb-2.5 sm:mb-[14px] w-full cursor-pointer"
-                key={index + 1}
-              >
-                <div
-                  onClick={() => setOpen((c) => (c === index ? null : index))}
-                  className={classes(
-                    "flex items-start gap-4 w-full py-[25px] rounded-[5px]",
-                    index === open
-                      ? ""
-                      : "hover:bg-[#f5f5f5] dark:hover:bg-[#003e527a]"
-                  )}
-                >
-                  <button
-                    className={`border rounded-full bg-[#EDEDED] border-[#D9D9D9] dark:border-[#0F3F4E] dark:bg-[#02151b] w-[30px] h-[30px] flex items-center justify-center ${
-                      open === index ? "!bg-[#8AFBFB]" : undefined
-                    }`}
-                  >
-                    <IconNext
-                      className={classes(
-                        "[&>path]:stroke-title",
-                        open === index ? "-rotate-90" : "rotate-90"
-                      )}
-                    />
-                  </button>
-                  <div
-                    className={classes(
-                      "text-[17px] text-start dark:text-[#fff]",
-                      open === index
-                        ? "text-[#003E52] font-semibold"
-                        : "text-primaryText font-medium"
-                    )}
-                  >
-                    {item.question}
-                  </div>
-                </div>
-                <p
-                  className={classes(
-                    "text-[#494949] dark:text-[#DFDFDF] text-sm overflow-hidden block px-3 leading-7 pr-6",
-                    open === index
-                      ? " max-h-screen mb-[20px] border-r border-[#D9D9D9] dark:border-[#0F3F4E]"
-                      : "max-h-0"
-                  )}
-                >
-                  {item.answer}
-                </p>
-              </div>
+              <ItemFaq
+                key={index}
+                i={index}
+                open={open}
+                setOpen={setOpen}
+                data={item}
+              />
             ))}
-          </div>
+          </ul>
         </div>
         <div className="w-full grow">
-          <span className="block mt-4 text-right text-[#383838] dark:text-[#CBCBCB] font-normal text-xs sm:text-base">
-            نظرات کاربران
-          </span>
-          <h2 className="block mt-8 text-2xl text-right font-semibold text-title leading-10 sm:leading-[50px]">
+          <h2 className="block text-2xl text-right font-semibold text-title leading-10 sm:leading-[50px]">
             نظرات کاربران درباره رمزینو
           </h2>
 
           <div className="mt-4">
             <div className="flex items-center gap-4">
               <button
-                className={`swiper-comments-button-up hover:bg-[#8AFBFB] border rounded-full bg-[#EDEDED] dark:bg-[#02151b] border-[#D9D9D9] dark:border-[#0F3F4E] w-[40px] h-[40px] flex items-center justify-center`}
+                className={`swiper-comments-button-up hover:bg-primary border rounded-full bg-[#EDEDED] dark:bg-[#02151b] border-[#D9D9D9] dark:border-[#0F3F4E] w-[40px] h-[40px] flex items-center justify-center`}
               >
                 <IconNext
                   className={classes("[&>path]:stroke-title -rotate-90")}
@@ -216,7 +170,7 @@ function FAQs() {
               </button>
 
               <button
-                className={`swiper-comments-button-down hover:bg-[#8AFBFB] border rounded-full bg-[#EDEDED] border-[#D9D9D9] dark:border-[#0F3F4E] dark:bg-[#02151b] w-[40px] h-[40px] flex items-center justify-center`}
+                className={`swiper-comments-button-down hover:bg-primary border rounded-full bg-[#EDEDED] border-[#D9D9D9] dark:border-[#0F3F4E] dark:bg-[#02151b] w-[40px] h-[40px] flex items-center justify-center`}
               >
                 <IconNext
                   className={classes("[&>path]:stroke-title rotate-90")}
@@ -246,7 +200,7 @@ function FAQs() {
                     <div
                       className={`p-8 py-4 relative z-10 rounded-xl flex items-start gap-6 min-h-[160px] md:min-h-[180px] overflow-hidden shadow-[0px_0px_30px_#00000010] dark:border dark:border-[#E0E0E01A] ${
                         index === activeIndex
-                          ? "bg-[#41E9E9] !text-[#000] after:absolute after:inset-0 after:bg-[url('/waves.svg')] after:opacity-30 after:rounded-xl after:pointer-events-none"
+                          ? "bg-primary/10 border border-primary dark:bg-primary/10"
                           : "bg-[#fff] dark:bg-[#02151b]"
                       }`}
                     >
@@ -311,13 +265,7 @@ function FAQs() {
                       </svg>
 
                       {/* STARS + SCORE */}
-                      <div
-                        className={`absolute top-6 left-6 items-center gap-2 text-gray-600 text-sm hidden md:flex ${
-                          index === activeIndex
-                            ? "dark:text-[#000]"
-                            : "dark:text-[#fff]"
-                        }`}
-                      >
+                      <div className="absolute top-6 left-6 items-center gap-2 text-gray-600 dark:text-[#fff] text-sm hidden md:flex">
                         <span>امتیاز ۵ از ۵</span>
                         <div className="flex text-yellow-500 text-xl">
                           ★★★★★
@@ -333,31 +281,13 @@ function FAQs() {
 
                       {/* TEXT CONTENT */}
                       <div className="flex flex-col">
-                        <h3
-                          className={`font-bold text-sm sm:text-base md:text-xl ${
-                            index === activeIndex
-                              ? "dark:text-[#000]"
-                              : "dark:text-[#fff]"
-                          }`}
-                        >
+                        <h3 className="font-bold text-sm sm:text-base md:text-xl dark:text-[#fff]">
                           {item.name}
                         </h3>
-                        <p
-                          className={`text-gray-500 text-sm mb-4 ${
-                            index === activeIndex
-                              ? "dark:text-[#000]"
-                              : "dark:text-[#fff]"
-                          }`}
-                        >
+                        <p className="text-gray-500 dark:text-[#fff] text-sm mb-4">
                           {item.title}
                         </p>
-                        <p
-                          className={`text-gray-700 text-xs md:text-base md:leading-6 ${
-                            index === activeIndex
-                              ? "dark:text-[#000]"
-                              : "dark:text-[#fff]"
-                          }`}
-                        >
+                        <p className="text-gray-700 dark:text-[#fff] text-xs md:text-base md:leading-6">
                           {item.text}
                         </p>
                       </div>
