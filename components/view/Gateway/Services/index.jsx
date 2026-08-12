@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import classes from "hooks/classes";
@@ -19,6 +19,73 @@ const currencies = [
 
 function Services() {
   const [activeTab, setActiveTab] = useState("1");
+  const stepsRef = useRef(null);
+  const circleRefs = useRef([]);
+  const [stepsInView, setStepsInView] = useState(false);
+  const [activeStep, setActiveStep] = useState(0);
+  // Distance from the row's right edge to each circle's center, in px. The row
+  // is RTL, so the connector line grows leftward from right-0 and these are the
+  // widths it needs to reach each step. Measured rather than assumed, because
+  // the steps are fixed-width with gaps, not equal thirds of the row.
+  const [stepOffsets, setStepOffsets] = useState([0, 0, 0]);
+
+  useEffect(() => {
+    const row = stepsRef.current;
+    if (!row) return;
+
+    const measure = () => {
+      const rowRect = row.getBoundingClientRect();
+      setStepOffsets(
+        circleRefs.current.map((circle) => {
+          if (!circle) return 0;
+          const rect = circle.getBoundingClientRect();
+          return rowRect.right - (rect.left + rect.width / 2);
+        })
+      );
+    };
+
+    measure();
+
+    if (typeof ResizeObserver === "undefined") return;
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(row);
+    return () => resizeObserver.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!stepsInView) return;
+
+    let interval;
+    const startTimeout = setTimeout(() => {
+      interval = setInterval(() => {
+        setActiveStep((prev) => (prev + 1) % 3);
+      }, 2000);
+    }, 1500);
+
+    return () => {
+      clearTimeout(startTimeout);
+      clearInterval(interval);
+    };
+  }, [stepsInView]);
+
+  useEffect(() => {
+    const node = stepsRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStepsInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="">
       <section className="container mx-auto py-16 fade-in">
@@ -1047,12 +1114,45 @@ function Services() {
           شروع درآمدزایی ارزی، فقط در ۳ مرحله{" "}
         </h2>
 
-        <div className="mt-12 w-[100vw] flex items-center lg:justify-center gap-20 overflow-auto relative z-10">
-          <div className="absolute right-0 top-[25px] w-full h-1 border-t-2 border-[#B4B4B4] border-dashed dark:border-[#ffffff90] -z-10" />
+        <div
+          ref={stepsRef}
+          className="mt-12 w-full flex items-center lg:justify-center gap-20 overflow-x-auto overflow-y-hidden no-scrollbar relative z-10 pt-10"
+        >
+          <div className="absolute right-0 top-[65px] w-full h-1 border-t-2 border-[#B4B4B4] border-dashed dark:border-[#ffffff90] -z-10" />
           <div
-            className="opacity-0 animate-fade-in-up flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink"
+            className="absolute right-0 top-[65px] h-1 bg-gradient-to-l from-[#16B3A7] to-[#2B758C] -z-10 transition-[width] duration-[900ms] ease-in-out"
+            style={{ width: stepsInView ? `${stepOffsets[activeStep]}px` : "0px" }}
+          />
+          <div
+            className={`absolute top-[59px] w-3 h-3 rounded-full bg-[#6CE4DB] shadow-[0_0_10px_3px_rgba(108,228,219,0.7)] -z-10 pointer-events-none transition-[right,opacity] duration-[900ms] ease-in-out ${
+              stepsInView ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              right: stepsInView ? `${stepOffsets[activeStep] - 6}px` : "0px",
+            }}
+          />
+          <div
+            className={`flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink transition-all duration-700 ease-out ${
+              stepsInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+            style={{ transitionDelay: "0ms" }}
           >
-            <div className="w-[65px] h-[65px] rounded-full flex items-center justify-center bg-[radial-gradient(288.22%_288.22%_at_49.92%_50%,#16B3A7_0%,#2B758C_55%)] border border-[#EEEEEE]">
+            <div
+              ref={(el) => (circleRefs.current[0] = el)}
+              className="w-[65px] h-[65px] rounded-full flex items-center justify-center bg-[radial-gradient(288.22%_288.22%_at_49.92%_50%,#16B3A7_0%,#2B758C_55%)] border border-[#EEEEEE] transition-all duration-500 ease-out"
+              style={{
+                transform: stepsInView ? "scale(1)" : "scale(0.5)",
+                transitionDelay: "150ms",
+                boxShadow:
+                  activeStep === 0
+                    ? "0 0 0 4px rgba(108,228,219,0.22), 0 0 22px 4px rgba(108,228,219,0.35)"
+                    : "0 0 0 0px rgba(108,228,219,0)",
+              }}
+            >
+              <div
+                className={stepsInView ? "animate-icon-float" : ""}
+                style={{ animationDelay: "650ms" }}
+              >
               <svg
                 width="33"
                 height="33"
@@ -1108,6 +1208,7 @@ function Services() {
                   </linearGradient>
                 </defs>
               </svg>
+              </div>
             </div>
 
             <span className="text-[15px] text-center sm:text-2xl font-semibold dark:text-[#fff]">
@@ -1122,10 +1223,27 @@ function Services() {
           </div>
 
           <div
-            className="opacity-0 animate-fade-in-up flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink"
-            style={{ animationDelay: "150ms" }}
+            className={`flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink transition-all duration-700 ease-out ${
+              stepsInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+            style={{ transitionDelay: "250ms" }}
           >
-            <div className="w-[65px] h-[65px] rounded-full flex items-center justify-center bg-[#fff] border border-[#EEEEEE] dark:bg-[#1E333A] dark:border-0">
+            <div
+              ref={(el) => (circleRefs.current[1] = el)}
+              className="w-[65px] h-[65px] rounded-full flex items-center justify-center bg-[#fff] border border-[#EEEEEE] dark:bg-[#1E333A] dark:border-0 transition-all duration-500 ease-out"
+              style={{
+                transform: stepsInView ? "scale(1)" : "scale(0.5)",
+                transitionDelay: "400ms",
+                boxShadow:
+                  activeStep === 1
+                    ? "0 0 0 4px rgba(108,228,219,0.22), 0 0 22px 4px rgba(108,228,219,0.35)"
+                    : "0 0 0 0px rgba(108,228,219,0)",
+              }}
+            >
+              <div
+                className={stepsInView ? "animate-icon-float" : ""}
+                style={{ animationDelay: "900ms" }}
+              >
               <svg
                 width="42"
                 height="42"
@@ -1197,6 +1315,7 @@ function Services() {
                   </linearGradient>
                 </defs>
               </svg>
+              </div>
             </div>
 
             <span className="text-[15px] text-center sm:text-2xl font-semibold dark:text-[#fff]">
@@ -1211,18 +1330,35 @@ function Services() {
           </div>
 
           <div
-            className="opacity-0 animate-fade-in-up flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink"
-            style={{ animationDelay: "300ms" }}
+            className={`flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink transition-all duration-700 ease-out ${
+              stepsInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            }`}
+            style={{ transitionDelay: "500ms" }}
           >
-            <div className="w-[65px] h-[65px] rounded-full flex items-center justify-center bg-[#fff] border border-[#EEEEEE] dark:bg-[#1E333A] dark:border-0">
+            <div
+              ref={(el) => (circleRefs.current[2] = el)}
+              className="w-[65px] h-[65px] rounded-full flex items-center justify-center bg-[#fff] border border-[#EEEEEE] dark:bg-[#1E333A] dark:border-0 transition-all duration-500 ease-out"
+              style={{
+                transform: stepsInView ? "scale(1)" : "scale(0.5)",
+                transitionDelay: "650ms",
+                boxShadow:
+                  activeStep === 2
+                    ? "0 0 0 4px rgba(108,228,219,0.22), 0 0 22px 4px rgba(108,228,219,0.35)"
+                    : "0 0 0 0px rgba(108,228,219,0)",
+              }}
+            >
+              <div
+                className={stepsInView ? "animate-icon-float" : ""}
+                style={{ animationDelay: "1150ms" }}
+              >
               <svg
-                width="66"
-                height="66"
+                width="40"
+                height="40"
                 viewBox="0 0 66 66"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
-                <g filter="url(#filter0_d_1180_17037)">
+                <g>
                   <path
                     d="M35.6121 17.665C38.8173 17.665 41.3346 17.6655 43.3191 17.8896C45.3446 18.1185 46.987 18.5956 48.3523 19.6738C48.761 19.9966 49.1405 20.3528 49.4851 20.7393C50.6461 22.0415 51.1639 23.6202 51.4109 25.5566C51.6508 27.438 51.6511 29.8194 51.6511 32.8242V33.0078C51.6511 36.0124 51.6508 38.3931 51.4109 40.2744C51.1639 42.2111 50.6462 43.7904 49.4851 45.0928C49.1405 45.4792 48.761 45.8354 48.3523 46.1582C46.987 47.2364 45.3445 47.7136 43.3191 47.9424C41.3346 48.1665 38.8173 48.166 35.6121 48.166H30.2175C27.0123 48.166 24.495 48.1665 22.5105 47.9424C20.485 47.7136 18.8426 47.2364 17.4773 46.1582C17.0686 45.8354 16.689 45.4792 16.3445 45.0928C15.1834 43.7904 14.6657 42.2111 14.4187 40.2744C14.1788 38.3931 14.1784 36.0124 14.1785 33.0078V32.8242C14.1784 29.8194 14.1788 27.438 14.4187 25.5566C14.6657 23.6202 15.1835 22.0415 16.3445 20.7393C16.689 20.3528 17.0686 19.9966 17.4773 19.6738C18.8426 18.5956 20.485 18.1185 22.5105 17.8896C23.9989 17.7215 25.787 17.6794 27.9402 17.6689L30.2175 17.665H35.6121ZM32.9148 27.6875C30.027 27.6875 27.6863 30.0283 27.6863 32.916C27.6863 35.8038 30.027 38.1445 32.9148 38.1445C35.8025 38.1445 38.1433 35.8037 38.1433 32.916C38.1433 30.0283 35.8025 27.6875 32.9148 27.6875ZM21.572 31.1729C20.6095 31.1729 19.8289 31.9535 19.8289 32.916C19.8289 33.8785 20.6095 34.6591 21.572 34.6592H21.5876C22.5502 34.6592 23.3308 33.8786 23.3308 32.916C23.3308 31.9534 22.5502 31.1729 21.5876 31.1729H21.572ZM44.2458 31.1729C43.2833 31.1729 42.5027 31.9534 42.5027 32.916C42.5027 33.8786 43.2833 34.6592 44.2458 34.6592H44.2615C45.2239 34.659 46.0036 33.8785 46.0037 32.916C46.0037 31.9536 45.2239 31.1731 44.2615 31.1729H44.2458Z"
                     fill="url(#paint0_linear_1180_17037)"
@@ -1293,6 +1429,7 @@ function Services() {
                   </linearGradient>
                 </defs>
               </svg>
+              </div>
             </div>
 
             <span className="text-[15px] text-center sm:text-2xl font-semibold dark:text-[#fff]">

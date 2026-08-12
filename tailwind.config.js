@@ -49,6 +49,10 @@ module.exports = {
           "0%, 100%": { transform: "scale(0.86)", opacity: "0.5" },
           "50%": { transform: "scale(1.06)", opacity: "1" },
         },
+        iconFloat: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-5px)" },
+        },
       },
       animation: {
         "fade-in-up": "fadeInUp 0.8s ease-out both",
@@ -56,6 +60,7 @@ module.exports = {
         "grid-pulse": "gridPulse 8s ease-in-out infinite",
         "mesh-flow": "meshFlow 28s ease-in-out infinite",
         "logo-pulse": "logoPulse 1.3s ease-in-out infinite",
+        "icon-float": "iconFloat 3s ease-in-out infinite",
       },
     },
     screens: {
