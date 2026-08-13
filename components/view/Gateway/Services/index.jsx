@@ -17,8 +17,17 @@ const currencies = [
   { icon: "APE", label: "ایپ" },
 ];
 
+const TAB_COUNT = 3;
+// Clears the fixed 85px nav, plus a little breathing room.
+const PIN_OFFSET = 100;
+
 function Services() {
   const [activeTab, setActiveTab] = useState("1");
+  // The tabs card pins to the viewport while the page scrolls through its tall
+  // wrapper; that scroll distance drives which tab is active. Desktop only —
+  // the tab rail is hidden below lg, and pinning fights mobile touch scrolling.
+  const pinRef = useRef(null);
+  const pinCardRef = useRef(null);
   const stepsRef = useRef(null);
   const circleRefs = useRef([]);
   const [stepsInView, setStepsInView] = useState(false);
@@ -28,6 +37,61 @@ function Services() {
   // widths it needs to reach each step. Measured rather than assumed, because
   // the steps are fixed-width with gaps, not equal thirds of the row.
   const [stepOffsets, setStepOffsets] = useState([0, 0, 0]);
+
+  useEffect(() => {
+    const wrapper = pinRef.current;
+    const card = pinCardRef.current;
+    if (!wrapper || !card) return;
+
+    const desktop = window.matchMedia("(min-width: 1024px)");
+
+    // Deliberately not throttled through requestAnimationFrame: rAF is paused
+    // while the tab is backgrounded, which would leave a "pending frame" latch
+    // stuck on and kill tab switching for the rest of the session. This reads
+    // one rect and writes no layout, which is cheap enough to run inline.
+    const sync = () => {
+      if (!desktop.matches) return;
+
+      // How far the page has scrolled since the card pinned, over the total
+      // distance it stays pinned. Measured from the live boxes so it tracks the
+      // card's real height instead of assuming one.
+      const distance = wrapper.offsetHeight - card.offsetHeight;
+      if (distance <= 0) return;
+
+      const scrolled = PIN_OFFSET - wrapper.getBoundingClientRect().top;
+      const progress = Math.min(Math.max(scrolled / distance, 0), 1);
+      const index = Math.min(TAB_COUNT - 1, Math.floor(progress * TAB_COUNT));
+      setActiveTab(String(index + 1));
+    };
+
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    sync();
+
+    return () => {
+      window.removeEventListener("scroll", sync);
+      window.removeEventListener("resize", sync);
+    };
+  }, []);
+
+  // Clicking a tab scrolls to the matching slice of the pinned range, so the
+  // choice survives the next scroll event instead of being recomputed away.
+  const goToTab = (value) => {
+    setActiveTab(value);
+
+    const wrapper = pinRef.current;
+    const card = pinCardRef.current;
+    if (!wrapper || !card) return;
+    if (!window.matchMedia("(min-width: 1024px)").matches) return;
+
+    const distance = wrapper.offsetHeight - card.offsetHeight;
+    if (distance <= 0) return;
+
+    const index = Number(value) - 1;
+    const wrapperTop = wrapper.getBoundingClientRect().top + window.scrollY;
+    const into = (distance * (index + 0.5)) / TAB_COUNT;
+    window.scrollTo({ top: wrapperTop - PIN_OFFSET + into, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const row = stepsRef.current;
@@ -124,7 +188,8 @@ function Services() {
                 <img
                   src="/images/landing-old/wallet-vector.svg"
                   alt="wallet-vector"
-                  className="w-full -mt-[20px] h-[210px]"
+                  className="art-float w-full -mt-[20px] h-[210px]"
+                  style={{ "--float-y": "12px", "--float-r": "1.5deg", "--float-d": "6s" }}
                 />
               </div>
               <div
@@ -140,7 +205,8 @@ function Services() {
                 <img
                   src="/images/landing-old/coin.svg"
                   alt="wallet-vector"
-                  className="w-full h-[200px] -mt-[12px]"
+                  className="art-float w-full h-[200px] -mt-[12px]"
+                  style={{ "--float-y": "10px", "--float-r": "-2deg", "--float-d": "5.5s", "--float-delay": "-1.8s" }}
                 />
                 <span className="text-2xl md:text-2xl block text-center text-[#1C2121] font-bold dark:text-[#fff]">
                   کارمزد رقابتی و شفاف
@@ -176,7 +242,8 @@ function Services() {
                 <img
                   src="/images/landing/cube.webp"
                   alt="debit-cards"
-                  className=""
+                  className="art-float"
+                  style={{ "--float-y": "14px", "--float-r": "2deg", "--float-d": "6.5s", "--float-delay": "-2.4s" }}
                 />
               </div>
             </div>
@@ -210,7 +277,8 @@ function Services() {
                 <img
                   src="/images/landing/pos.webp"
                   alt="pos-vector"
-                  className="w-full mt-20"
+                  className="art-float w-full mt-20"
+                  style={{ "--float-y": "11px", "--float-r": "-1.5deg", "--float-d": "7.5s", "--float-delay": "-3s" }}
                 />
               </div>
             </div>
@@ -245,12 +313,16 @@ function Services() {
               </Link>
             </div>
 
-            <img
-              src={"/images/landing/withdraw-vector.webp"}
-              alt="withdraw-vector"
-              layout="fixed"
-              className="z-20 absolute block left-1/2 -translate-x-1/2 -top-20 lg:-top-28 lg:-left-0 lg:translate-x-0 mx-auto"
-            />
+            {/* The wrapper owns the positioning transform so the float
+                animation on the image can't fight -translate-x-1/2. */}
+            <div className="z-20 absolute block left-1/2 -translate-x-1/2 -top-20 lg:-top-28 lg:-left-0 lg:translate-x-0 mx-auto">
+              <img
+                src={"/images/landing/withdraw-vector.webp"}
+                alt="withdraw-vector"
+                className="art-float"
+                style={{ "--float-y": "16px", "--float-r": "1.5deg", "--float-d": "8s" }}
+              />
+            </div>
           </div>
         </section>
       </section>
@@ -259,12 +331,14 @@ function Services() {
         <img
           src="/images/landing/debit-cards.webp"
           alt="debit-cards"
-          className="dark:hidden"
+          className="art-float dark:hidden"
+          style={{ "--float-y": "13px", "--float-r": "1deg", "--float-d": "7s" }}
         />
         <img
           src="/images/landing/debit-cards-dark.webp"
           alt="debit-cards"
-          className="hidden dark:block"
+          className="art-float hidden dark:block"
+          style={{ "--float-y": "13px", "--float-r": "1deg", "--float-d": "7s" }}
         />
 
         {/* Dark glow */}
@@ -301,8 +375,10 @@ function Services() {
         </div>
       </section>
 
-      <section className="mt-20 container fade-in">
-        <div className="bg-[#fff] dark:bg-[#08242D] border border-[#EAEAEA] dark:border-[#254955] rounded-lg grid grid-cols-12 gap-4">
+      <section ref={pinRef} className="mt-20 relative lg:h-[260vh]">
+        <div ref={pinCardRef} className="lg:sticky lg:top-[100px]">
+          <div className="container fade-in">
+            <div className="bg-[#fff] dark:bg-[#08242D] border border-[#EAEAEA] dark:border-[#254955] rounded-lg grid grid-cols-12 gap-4">
           {activeTab === "1" ? (
             <div className="col-span-full lg:col-span-5 p-6 flex flex-col justify-center h-full">
               <h2
@@ -955,7 +1031,7 @@ function Services() {
                     ? "bg-[#1C404B]"
                     : "bg-[#F2F2F2] dark:bg-transparent"
                 }`}
-                onClick={() => setActiveTab("1")}
+                onClick={() => goToTab("1")}
               >
                 <svg
                   className={`font-semibold ${
@@ -998,7 +1074,7 @@ function Services() {
                     ? "bg-[#1C404B]"
                     : "bg-[#F2F2F2] dark:bg-transparent"
                 }`}
-                onClick={() => setActiveTab("2")}
+                onClick={() => goToTab("2")}
               >
                 <svg
                   className={`font-semibold ${
@@ -1037,7 +1113,7 @@ function Services() {
                     ? "bg-[#1C404B]"
                     : "bg-[#F2F2F2] dark:bg-transparent"
                 }`}
-                onClick={() => setActiveTab("3")}
+                onClick={() => goToTab("3")}
               >
                 <svg
                   className={`font-semibold ${
@@ -1089,13 +1165,17 @@ function Services() {
             <img
               src="/images/landing/pick-card.webp"
               alt="pikc-card"
-              className="w-full h-full object-cover dark:hidden"
+              className="art-float w-full h-full object-cover dark:hidden"
+              style={{ "--float-y": "12px", "--float-r": "-1.2deg", "--float-d": "6.5s" }}
             />
             <img
               src="/images/landing/pick-card-dark.webp"
               alt="pikc-card"
-              className="w-full h-full object-cover hidden dark:block"
+              className="art-float w-full h-full object-cover hidden dark:block"
+              style={{ "--float-y": "12px", "--float-r": "-1.2deg", "--float-d": "6.5s" }}
             />
+          </div>
+            </div>
           </div>
         </div>
       </section>
@@ -1479,7 +1559,8 @@ function Services() {
             <img
               src="/images/landing/api-vector.webp"
               alt="api-vector"
-              className=""
+              className="art-float"
+              style={{ "--float-y": "14px", "--float-r": "1.8deg", "--float-d": "7s" }}
             />
           </div>
 
@@ -1589,13 +1670,15 @@ function Services() {
         <img
           src="/images/landing/airdrop-vector-1.webp"
           alt="airdrop-1"
-          className="absolute left-0 bottom-8 max-w-[400px] w-[30vw]"
+          className="art-float absolute left-0 bottom-8 max-w-[400px] w-[30vw]"
+          style={{ "--float-y": "18px", "--float-r": "2deg", "--float-d": "9s" }}
         />
 
         <img
           src="/images/landing/airdrop-vector-2.webp"
           alt="airdrop-1"
-          className="absolute right-0 top-20 max-w-[400px] w-[30vw]"
+          className="art-float absolute right-0 top-20 max-w-[400px] w-[30vw]"
+          style={{ "--float-y": "15px", "--float-r": "-2deg", "--float-d": "7.5s", "--float-delay": "-3.5s" }}
         />
         <div className="flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink mx-auto">
           <div className="opacity-0 animate-fade-in-up w-[75px] h-[75px] rounded-full flex items-center justify-center bg-[#67CCCB] dark:bg-[#67CCCB]">
