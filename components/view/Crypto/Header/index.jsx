@@ -35,7 +35,7 @@ function Header() {
               />
               <button
                 title="شروع"
-                className="full-center text-[#fff] text-[11px] sm:text-sm font-light h-12 sm:h-[59px] rounded-[10px] bg-primaryDark px-6 whitespace-nowrap sm:gap-1 glass hover:bg-primary hover:text-primaryText group hover:font-semibold group"
+                className="btn btn-primary font-light whitespace-nowrap hover:bg-primary hover:text-primaryText group hover:font-semibold group"
               >
                 ورود به بازار
                 <AddIcon>

@@ -48,7 +48,7 @@ function SectionContact({ data }) {
               </div>
               <Link
                 href={e?.buttonLink}
-                className="bg-primary px-4 sm:px-5 h-[38px] sm:h-[47px] rounded-md md:rounded-lg text-center text-[#fff] hover:opacity-80 glass text-xs sm:text-[13px] md:text-[15px] full-center text-primaryText"
+                className="btn btn-accent text-center"
               >
                 {e?.buttonName}
               </Link>

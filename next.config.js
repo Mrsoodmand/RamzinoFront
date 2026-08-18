@@ -1,9 +1,31 @@
 /** @type {import('next').NextConfig} */
 
 module.exports = {
+  output: 'standalone',
   reactStrictMode: true,
   images: {
-    domains: ["ramzino.me", "panel.ramzino.me", "localhost", "127.0.0.1"],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        pathname: "/**",
+      },
+      {
+        protocol: "http",
+        hostname: "127.0.0.1",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "ramzino.me",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "panel.ramzino.me",
+        pathname: "/**",
+      },
+    ],
   },
   experimental: {
     nextScriptWorkers: true,

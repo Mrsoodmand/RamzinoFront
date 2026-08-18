@@ -21,23 +21,22 @@ function HeroBlog({ data }) {
         {data?.title}
       </h1>
       <div className="relative">
-        <Image
-          src={data?.cover}
-          alt={data?.title}
-          layout="responsive"
-          width={300}
-          height={180}
-          className="max-h-[248px] sm:max-h-[596px] h-[600px] object-cover mt-4 sm:mt-6"
-          priority
-          loading="eager"
-          sizes={`(max-width: 1024px) 100vw, 33vw"`}
-        />
+        <div className="relative w-full aspect-[16/9] overflow-hidden rounded-md mt-4 sm:mt-6">
+          <Image
+            src={data?.cover}
+            alt={data?.title}
+            fill
+            className="object-cover"
+            priority
+            sizes="(max-width: 1024px) 100vw, 66vw"
+          />
+        </div>
         <div className="sm:px-5 py-4 sm:py-[28px] center-between">
           <div className="sm:hidden"></div>
           <div className="absolute bottom-[75px] right-3 sm:bottom-0 sm:right-0 sm:relative center gap-1.5 sm:gap-2.5">
             <Link
               href={`/blogs?category=${data?.category}`}
-              className="bg-primary rounded-full h-[27px] sm:h-10 px-[13px] sm:px-[18px] full-center text-[#404040] font-semibold text-[9px] sm:text-sm"
+              className="btn btn-accent px-[13px] sm:px-[18px]"
             >
               {data?.category}
             </Link>

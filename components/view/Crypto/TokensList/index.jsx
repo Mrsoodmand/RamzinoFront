@@ -51,7 +51,7 @@ function TokensList() {
       </Swiper>
       <button
         title="مشاهده بیشتر"
-        className="full-center sm:gap-2.5 text-[#fff] bg-[#2B758C] w-[108px] text-[8px] sm:text-base sm:w-[206px] h-[30px] sm:h-[56px] rounded-[4px] sm:rounded-lg glass hover:opacity-90 mt-9 sm:mt-14"
+        className="btn btn-primary mt-9 sm:mt-14"
       >
         <AddIcon>
           <IconCourency className="[&>path]:stroke-[#fff] scale-50 sm:scale-100" />

@@ -17,7 +17,7 @@ function Header() {
 
         <Link
           href="https://panel.ramzino.me/user/login"
-          className="mt-8 text-center bg-primaryDark w-[200px] text-base h-[55px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center opacity-0 animate-fade-in-up transition-transform duration-300 hover:scale-105 active:scale-95"
+          className="btn btn-primary mt-8 text-center opacity-0 animate-fade-in-up"
           style={{ animationDelay: "300ms" }}
         >
           ورود به دنیای رمزینو

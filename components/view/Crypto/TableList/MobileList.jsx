@@ -55,7 +55,7 @@ function MobileList() {
               <button
                 title="جزئیات"
                 onClick={() => setOpen((c) => (c === i ? null : i))}
-                className="full-center gap-0.5 text-[10px] bg-primary w-[70px] h-[33px] rounded-[5px] glass hover:opacity-90"
+                className="btn btn-accent"
               >
                 جزئیات
                 <AddIcon>

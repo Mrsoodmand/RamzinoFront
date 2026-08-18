@@ -42,7 +42,7 @@ function Podcasts({ data }) {
         <div className="text-title font-semibold text-lg sm:text-2xl">
           جدیدترین پادکست ها
         </div>
-        <button className="hidden sm:full-center glass hover:opacity-80 text-[#404040] bg-primary rounded-lg text-base gap-2.5 w-[206px] h-[56px]">
+        <button className="btn btn-accent hidden">
           مشاهده همه پادکست ها
         </button>
       </div>

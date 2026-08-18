@@ -14,7 +14,7 @@ function SingleBlogPage({ data }) {
     <>
       <main className="container mt-1 sm:mt-10">
         <div className="flex gap-5 xl:gap-10">
-          <article className="w-full">
+          <article className="w-full min-w-0">
             <HeroBlog data={data?.blog} />
             <Result />
             <div

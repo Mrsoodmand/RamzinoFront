@@ -1,40 +1,132 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# RamzinoFront
+
+Next.js 14 frontend for the Ramzino crypto platform. Uses standalone output mode for deployment.
+
+## Tech Stack
+
+- **Next.js 14** (Pages Router, standalone output)
+- **React 18**
+- **Redux Toolkit** for state management
+- **TailwindCSS** for styling
+- **Axios + SWR** for data fetching
+- **Swiper** for carousels/sliders
+
+## Prerequisites
+
+- Node.js 18+
+- npm
 
 ## Getting Started
 
-First, run the development server:
+### 1. Install dependencies
+
+```bash
+npm install
+```
+
+### 2. Set environment variables
+
+Copy `.env.example` to `.env.local` and update values:
+
+```bash
+cp .env.example .env.local
+```
+
+```bash
+# .env.local
+NEXT_PUBLIC_API_BASE_URL=https://panel.ramzino.me/api/front-api-v1/
+API_URL=https://panel.ramzino.me/api/front-api-v1/
+PORT=3001
+HOSTNAME=0.0.0.0
+```
+
+| Variable | Description | Used |
+|---|---|---|
+| `NEXT_PUBLIC_API_BASE_URL` | Backend API URL (baked at build time) | Client + Server |
+| `API_URL` | Backend API URL (read at runtime) | Server fallback |
+| `PORT` | Server port (default: 3001) | Server |
+| `HOSTNAME` | Server bind address (default: 0.0.0.0) | Server |
+
+### 3. Run development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### 4. Build for production
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+```bash
+npm run build
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### 5. Start production server
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npm run start
+```
 
-## Learn More
+Or with custom port:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+PORT=3001 npm run start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+```
+├── components/     # Reusable UI components
+├── pages/          # Next.js pages (routes)
+├── hooks/          # Custom React hooks
+├── reduxStates/    # Redux store, reducers, actions
+├── icons/          # SVG icons (imported as React components)
+├── styles/         # Global CSS
+├── public/         # Static assets (images, fonts, icons)
+├── next.config.js  # Next.js config (standalone output, SVG loader)
+├── ecosystem.config.js  # PM2 config (port, env vars)
+├── start.js        # Loads .env before starting server
+└── tailwind.config.js   # TailwindCSS config
+```
 
-## Deploy on Vercel
+## Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This project uses Next.js `output: 'standalone'` mode. See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for complete step-by-step instructions on:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Building locally and uploading to a cPanel server
+- Installing PM2 and managing the app
+- Setting up Apache reverse proxy
+- Installing sharp for image optimization
+- Troubleshooting (503, sharp errors, static files 404, etc.)
+
+### Quick deploy summary
+
+**On your PC:**
+```bash
+npm run build
+cp -r .next/static .next/standalone/.next/static
+cp -r public .next/standalone/public
+cp ecosystem.config.js .next/standalone/ecosystem.config.js
+cp start.js .next/standalone/start.js
+cd .next/standalone
+zip -r ../ramzino-deploy.zip .
+```
+
+**On the server:**
+```bash
+cd ~/public_html/ramzino
+npm install sharp
+pm2 start ecosystem.config.js
+pm2 save
+```
+
+## PM2 Commands
+
+| Action | Command |
+|---|---|
+| Start | `pm2 start ecosystem.config.js` |
+| Stop | `pm2 stop ramzino` |
+| Restart | `pm2 restart ramzino` |
+| Status | `pm2 status` |
+| Logs | `pm2 logs ramzino` |
+| Delete | `pm2 delete ramzino` |

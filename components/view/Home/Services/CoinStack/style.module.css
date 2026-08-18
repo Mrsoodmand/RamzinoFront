@@ -1,0 +1,761 @@
+/* Animated replacement for /images/landing/vector-1.webp.
+   Every element is a real layer with its own motion; sizes are expressed in
+   container-query units so the whole scene scales with the stage width.
+
+   Motion here is deliberately slow: long durations, small amplitudes and a
+   sinusoidal ease so nothing ever snaps. Loops are given prime-ish periods so
+   the scene does not visibly repeat as a whole. */
+
+.stage {
+  /* the artwork is a left-to-right composition (icon left, price right)
+     even though the page itself is RTL */
+  direction: ltr;
+  position: relative;
+  width: 100%;
+  max-width: 724px;
+  aspect-ratio: 724 / 402;
+  container-type: inline-size;
+  isolation: isolate;
+  /* layers are intentionally placed past the edges; without this they spill
+     over the copy column beside them */
+  overflow: hidden;
+  border-radius: 10px;
+
+  --mint: #4edfd4;
+  --cap-stroke: #e6e8e9;
+  --pill-bg: linear-gradient(180deg, #ffffff 0%, #f4f6f7 100%);
+  --pill-ink: #0c0c0c;
+  --pill-sub: #7c8287;
+  --pill-price: #0c0c0c;
+  --icon-bg: #141a1e;
+  --icon-fg: #ffffff;
+  --pill-shadow: 0 18px 40px -18px rgba(10, 32, 39, 0.35);
+  --track: #c9cfd2;
+  --dot: #dfe2e4;
+  --chip-bg: #ffffff;
+  --chip-fg: #16303a;
+  --chip-shadow: 0 8px 20px -10px rgba(10, 32, 39, 0.4);
+  --glow: rgba(78, 223, 212, 0.18);
+  /* signed values need real contrast on a white pill, so light mode uses
+     darker variants than the mint/rose used on dark surfaces */
+  --pos: #15705f;
+  --neg: #c0392b;
+  /* sinusoidal in/out — the gentlest curve for a loop */
+  --ease: cubic-bezier(0.37, 0, 0.63, 1);
+}
+
+:global(body.dark) .stage {
+  --cap-stroke: #173039;
+  --pill-bg: linear-gradient(180deg, #16303a 0%, #0e242c 100%);
+  --pill-ink: #ffffff;
+  --pill-sub: #8fa3ab;
+  --pill-price: #ffffff;
+  --icon-bg: #ffffff;
+  --icon-fg: #141a1e;
+  --pill-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.55);
+  --track: #223e48;
+  --dot: #c7d0d4;
+  --chip-bg: #16303a;
+  --chip-fg: #cfe9e6;
+  --chip-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.6);
+  --glow: rgba(78, 223, 212, 0.13);
+  --pos: #4edfd4;
+  --neg: #ff8a8a;
+}
+
+/* only top-level layers are absolutely placed; deeper nodes keep normal flow
+   so the flex layout inside a pill still works */
+.stage > * {
+  position: absolute;
+}
+
+/* ---------- soft drifting glow ---------- */
+.glow {
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--glow) 0%, rgba(78, 223, 212, 0) 70%);
+  filter: blur(1.5cqw);
+  pointer-events: none;
+}
+.glowA {
+  left: 4%;
+  top: 18%;
+  width: 38%;
+  height: 62%;
+  animation: glowDriftA 34s var(--ease) infinite;
+}
+.glowB {
+  left: 52%;
+  top: 8%;
+  width: 42%;
+  height: 66%;
+  animation: glowDriftB 41s var(--ease) infinite -12s;
+}
+@keyframes glowDriftA {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate3d(5%, -6%, 0) scale(1.12);
+    opacity: 1;
+  }
+}
+@keyframes glowDriftB {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.08);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate3d(-6%, 7%, 0) scale(1);
+    opacity: 0.95;
+  }
+}
+
+/* ---------- background capsules ---------- */
+.cap {
+  border: 1px solid var(--cap-stroke);
+  border-radius: 999px;
+  animation: capBreathe 19s var(--ease) infinite;
+}
+.cap:nth-of-type(2n) {
+  animation-duration: 23s;
+  animation-delay: -7s;
+}
+.cap:nth-of-type(3n) {
+  animation-duration: 27s;
+  animation-delay: -13s;
+}
+.cap:nth-of-type(5n) {
+  animation-duration: 31s;
+  animation-delay: -19s;
+}
+@keyframes capBreathe {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translate3d(0, -0.9%, 0);
+  }
+}
+
+/* ---------- coin pill ---------- */
+.pill {
+  border-radius: 999px;
+  background: var(--pill-bg);
+  box-shadow: var(--pill-shadow);
+  display: flex;
+  align-items: center;
+  gap: 2.2cqw;
+  padding: 0 3.4cqw 0 2.2cqw;
+  overflow: hidden;
+}
+.pill::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: -1%;
+  width: 22%;
+  background: linear-gradient(to right, var(--mint), rgba(78, 223, 212, 0) 88%);
+  opacity: 0.75;
+  filter: blur(0.45cqw);
+  animation: edgeSweep 15s var(--ease) infinite;
+}
+.pill > * {
+  position: relative;
+}
+@keyframes edgeSweep {
+  0%,
+  100% {
+    transform: translateX(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(3%);
+    opacity: 0.9;
+  }
+}
+
+.icon {
+  width: 6.6cqw;
+  height: 6.6cqw;
+  border-radius: 50%;
+  background: var(--icon-bg);
+  display: grid;
+  place-items: center;
+  flex: none;
+  box-shadow: 0 0.5cqw 1.5cqw rgba(0, 0, 0, 0.18);
+}
+.icon svg {
+  position: relative;
+  width: 3.6cqw;
+  height: 3.6cqw;
+  fill: var(--icon-fg);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35cqw;
+  min-width: 0;
+}
+.sym {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 1.35cqw;
+  letter-spacing: 0.02em;
+  color: var(--pill-sub);
+  white-space: nowrap;
+}
+.name {
+  font-size: 2.25cqw;
+  font-weight: 700;
+  color: var(--pill-ink);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.figs {
+  margin-inline-start: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35cqw;
+}
+.pct {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 1.35cqw;
+  color: var(--pos);
+  transition: color 0.8s var(--ease);
+  animation: pctPulse 11s var(--ease) infinite;
+}
+.neg {
+  color: var(--neg);
+}
+@keyframes pctPulse {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.price {
+  /* the site font is IRANYekanXFaNum, which renders Latin digits as Persian
+     numerals — the artwork wants Latin figures, so opt out of it here */
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Arial, sans-serif;
+  font-size: 2.05cqw;
+  font-weight: 700;
+  color: var(--pill-price);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* per-pill placement + independent float. Long periods and small amplitudes:
+   the cards should look suspended, not bobbing. */
+.pillA {
+  left: 28.3%;
+  top: 15.4%;
+  width: 40%;
+  height: 21.4%;
+  animation: floatA 19s var(--ease) infinite;
+}
+.pillB {
+  left: 15.2%;
+  top: 38.5%;
+  width: 39.4%;
+  height: 21.1%;
+  animation: floatB 23s var(--ease) infinite -6s;
+  z-index: 3;
+}
+.pillC {
+  left: 28.3%;
+  top: 64.2%;
+  width: 39.4%;
+  height: 20.4%;
+  animation: floatC 27s var(--ease) infinite -13s;
+}
+@keyframes floatA {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-0.5%, -2%, 0);
+  }
+}
+@keyframes floatB {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0.6%, 1.9%, 0);
+  }
+}
+@keyframes floatC {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-0.4%, -1.7%, 0);
+  }
+}
+
+/* ---------- coin swap ----------
+   A soft cross-dissolve rather than a flip: the old content eases out with a
+   touch of blur, the new content eases back in. */
+.swap {
+  animation: pillLift 1.5s var(--ease);
+}
+.swap .icon {
+  animation: iconSwap 1.5s var(--ease);
+}
+.swap .meta,
+.swap .figs {
+  animation: textSwap 1.5s var(--ease);
+}
+@keyframes iconSwap {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+  38% {
+    transform: scale(0.9);
+    opacity: 0;
+    filter: blur(0.35cqw);
+  }
+  42% {
+    transform: scale(1.06);
+    opacity: 0;
+    filter: blur(0.35cqw);
+  }
+}
+@keyframes textSwap {
+  0%,
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  38% {
+    opacity: 0;
+    transform: translateY(-7%);
+    filter: blur(0.25cqw);
+  }
+  42% {
+    opacity: 0;
+    transform: translateY(7%);
+    filter: blur(0.25cqw);
+  }
+}
+@keyframes pillLift {
+  0%,
+  100% {
+    box-shadow: var(--pill-shadow);
+  }
+  40% {
+    box-shadow: 0 0 0 0.28cqw rgba(78, 223, 212, 0.24), var(--pill-shadow);
+  }
+}
+
+/* ---------- price ticks ----------
+   colour only; nudging the number vertically read as a jitter */
+.up {
+  animation: tickUp 1.6s var(--ease);
+}
+.down {
+  animation: tickDown 1.6s var(--ease);
+}
+@keyframes tickUp {
+  0% {
+    color: var(--pos);
+  }
+  100% {
+    color: var(--pill-price);
+  }
+}
+@keyframes tickDown {
+  0% {
+    color: var(--neg);
+  }
+  100% {
+    color: var(--pill-price);
+  }
+}
+
+/* ---------- floating mini coin chips ---------- */
+.chip {
+  border-radius: 50%;
+  background: var(--chip-bg);
+  box-shadow: var(--chip-shadow);
+  display: grid;
+  place-items: center;
+}
+.chip svg {
+  position: relative;
+  width: 55%;
+  height: 55%;
+  fill: var(--chip-fg);
+  opacity: 0.9;
+}
+.chipA {
+  left: 8.5%;
+  top: 6%;
+  width: 5.2cqw;
+  height: 5.2cqw;
+  animation: chipDriftA 25s var(--ease) infinite;
+}
+.chipB {
+  left: 84%;
+  top: 28%;
+  width: 4.2cqw;
+  height: 4.2cqw;
+  animation: chipDriftB 29s var(--ease) infinite -9s;
+}
+.chipC {
+  left: 74%;
+  top: 86%;
+  width: 4.8cqw;
+  height: 4.8cqw;
+  animation: chipDriftC 33s var(--ease) infinite -17s;
+}
+@keyframes chipDriftA {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-4deg);
+  }
+  50% {
+    transform: translate3d(6%, -14%, 0) rotate(5deg);
+  }
+}
+@keyframes chipDriftB {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(3deg);
+  }
+  50% {
+    transform: translate3d(-9%, 12%, 0) rotate(-5deg);
+  }
+}
+@keyframes chipDriftC {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(2deg);
+  }
+  50% {
+    transform: translate3d(7%, -11%, 0) rotate(-4deg);
+  }
+}
+
+/* ---------- sparks ---------- */
+.spark {
+  color: var(--mint);
+  opacity: 0.55;
+  animation: sparkTwinkle 13s var(--ease) infinite;
+}
+.spark svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+.sparkA {
+  left: 21%;
+  top: 8%;
+  width: 1.9cqw;
+  height: 1.9cqw;
+}
+.sparkB {
+  left: 62%;
+  top: 92%;
+  width: 1.5cqw;
+  height: 1.5cqw;
+  animation-duration: 17s;
+  animation-delay: -6s;
+}
+.sparkC {
+  left: 90%;
+  top: 58%;
+  width: 1.7cqw;
+  height: 1.7cqw;
+  animation-duration: 21s;
+  animation-delay: -11s;
+}
+@keyframes sparkTwinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.85) rotate(0deg);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1) rotate(45deg);
+  }
+}
+
+/* ---------- wallet chips ---------- */
+.wallet {
+  width: 7.6cqw;
+  height: 7.6cqw;
+  border-radius: 1.9cqw;
+  background: var(--mint);
+  display: grid;
+  place-items: center;
+  animation: walletPulse 12s var(--ease) infinite;
+}
+.wallet svg {
+  position: relative;
+  width: 4cqw;
+  height: 4cqw;
+  fill: none;
+  stroke: #0c3b35;
+  stroke-width: 1.7;
+}
+.walletA {
+  left: 5.8%;
+  top: 43.5%;
+  z-index: 4;
+}
+.walletB {
+  left: 69.8%;
+  top: 67%;
+  animation-delay: -6s;
+}
+@keyframes walletPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(78, 223, 212, 0.32);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 0 1.1cqw rgba(78, 223, 212, 0);
+    transform: scale(1.02);
+  }
+}
+
+/* ---------- sliders ---------- */
+.slider {
+  height: 2.5cqw;
+  display: flex;
+  align-items: center;
+}
+.rail {
+  position: relative;
+  width: 100%;
+  height: 0.42cqw;
+  border-radius: 999px;
+  background: var(--track);
+}
+.fill {
+  position: absolute;
+  inset-block: 0;
+  left: 0;
+  border-radius: 999px;
+  background: var(--mint);
+}
+.knob {
+  position: absolute;
+  top: 50%;
+  width: 2.5cqw;
+  height: 2.5cqw;
+  border-radius: 50%;
+  transform: translate(50%, -50%);
+}
+.sliderLive {
+  left: 58.7%;
+  top: 48.5%;
+  width: 18%;
+}
+.sliderLive .fill {
+  width: 62%;
+  animation: fillMove 16s var(--ease) infinite;
+}
+.sliderLive .knob {
+  left: 62%;
+  background: var(--mint);
+  box-shadow: 0 0 0 0.5cqw rgba(78, 223, 212, 0.28);
+  animation: knobMove 16s var(--ease) infinite;
+}
+@keyframes fillMove {
+  0%,
+  100% {
+    width: 40%;
+  }
+  45% {
+    width: 72%;
+  }
+  72% {
+    width: 60%;
+  }
+}
+@keyframes knobMove {
+  0%,
+  100% {
+    left: 40%;
+  }
+  45% {
+    left: 72%;
+  }
+  72% {
+    left: 60%;
+  }
+}
+
+.sliderIdle {
+  left: 5.5%;
+  top: 71.5%;
+  width: 17%;
+}
+.sliderIdle .rail {
+  background: linear-gradient(to left, var(--track) 0 58%, transparent 58%);
+}
+.sliderIdle .knob {
+  left: 58%;
+  background: var(--dot);
+  box-shadow: 0 0.3cqw 0.8cqw rgba(0, 0, 0, 0.15);
+  animation: knobIdle 24s var(--ease) infinite;
+}
+@keyframes knobIdle {
+  0%,
+  100% {
+    left: 54%;
+  }
+  50% {
+    left: 62%;
+  }
+}
+
+.sliderMini {
+  left: 76%;
+  top: 14%;
+  width: 12%;
+}
+.sliderMini .fill {
+  width: 45%;
+  animation: fillMini 21s var(--ease) infinite -8s;
+  opacity: 0.75;
+}
+.sliderMini .knob {
+  left: 45%;
+  width: 1.9cqw;
+  height: 1.9cqw;
+  background: var(--mint);
+  opacity: 0.85;
+  animation: knobMini 21s var(--ease) infinite -8s;
+}
+@keyframes fillMini {
+  0%,
+  100% {
+    width: 32%;
+  }
+  50% {
+    width: 66%;
+  }
+}
+@keyframes knobMini {
+  0%,
+  100% {
+    left: 32%;
+  }
+  50% {
+    left: 66%;
+  }
+}
+
+/* ---------- cursor ---------- */
+.cursor {
+  left: 66.5%;
+  top: 52%;
+  width: 2.4cqw;
+  height: 2.4cqw;
+  animation: cursorMove 16s var(--ease) infinite;
+  filter: drop-shadow(0 0.3cqw 0.6cqw rgba(0, 0, 0, 0.35));
+}
+.cursor svg {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+@keyframes cursorMove {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  45% {
+    transform: translate(4cqw, -0.25cqw);
+  }
+  72% {
+    transform: translate(2cqw, 0);
+  }
+}
+
+/* ---------- dots ---------- */
+.dot {
+  border-radius: 50%;
+  background: var(--dot);
+  animation: dotDrift 22s var(--ease) infinite;
+}
+.dotA {
+  left: 67.7%;
+  top: 2%;
+  width: 2.5cqw;
+  height: 2.5cqw;
+}
+.dotB {
+  left: 25.8%;
+  top: 91%;
+  width: 2.1cqw;
+  height: 2.1cqw;
+  animation-delay: -8s;
+}
+.dotC {
+  left: 3%;
+  top: 30%;
+  width: 1.5cqw;
+  height: 1.5cqw;
+  animation-duration: 26s;
+  animation-delay: -14s;
+}
+.dotD {
+  left: 94%;
+  top: 78%;
+  width: 1.8cqw;
+  height: 1.8cqw;
+  animation-duration: 30s;
+  animation-delay: -4s;
+}
+.dotE {
+  left: 46%;
+  top: 96%;
+  width: 1.3cqw;
+  height: 1.3cqw;
+  animation-duration: 34s;
+  animation-delay: -21s;
+}
+@keyframes dotDrift {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-8%);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage *,
+  .stage *::before {
+    animation: none !important;
+  }
+}

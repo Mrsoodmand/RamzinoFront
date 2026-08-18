@@ -48,7 +48,7 @@ function MainContact() {
             نیاز به راهنمایی و مشاوره دارید؟
           </div>
         </div>
-        <button className="full-center text-primaryText bg-primary w-[126px] sm:w-[158px] h-[42px] sm:h-[53px] rounded-[5px] text-[13px] sm:text-[17px] gap-1 sm:gap-2">
+        <button className="btn btn-accent">
           <IconContactPhone className="scale-[0.8] sm:scale-100" />
           برقرای تماس
         </button>

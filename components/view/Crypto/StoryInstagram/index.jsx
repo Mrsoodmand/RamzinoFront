@@ -31,7 +31,7 @@ function StoryInstagram() {
         <Link
           title="مشاهده"
           href="#"
-          className="full-center bg-primary w-[122px] sm:w-[212px] h-[46px] sm:h-[60px] rounded-[6px] sm:rounded-[4px] sm:gap-[7px]  text-primaryText glass hover:opacity-90 text-[13px] sm:text-base"
+          className="btn btn-accent"
         >
           <AddIcon>
             <IconInstagram className="[&>path]:stroke-primaryText scale-[0.6] sm:scale-100" />

@@ -16,7 +16,7 @@ function BannerInstagram() {
           </p>
           <button
             title="عضویت در اینستاگرام"
-            className="full-center bg-[#2B758C] w-[212px] h-[60px] rounded-[4px] gap-[7px] mt-8 text-[#FAFAFA] glass hover:opacity-90"
+            className="btn btn-primary mt-8 text-[#FAFAFA]"
           >
             <AddIcon>
               <IconInstagram />

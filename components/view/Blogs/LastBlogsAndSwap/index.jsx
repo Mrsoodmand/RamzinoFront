@@ -16,7 +16,7 @@ function LastBlogsAndSwap({ data }) {
         <div className="text-[#0C0C0C] font-semibold tet-xl sm:text-2xl">
           آخرین مقالات
         </div>
-        <button className="hidden sm:full-center glass hover:opacity-80 text-[#404040] bg-primary rounded-lg text-base gap-2.5 w-[206px] h-[56px]">
+        <button className="btn btn-accent hidden">
           مشاهده تمام مقالات
           <IconView />
         </button>
@@ -33,7 +33,7 @@ function LastBlogsAndSwap({ data }) {
         </div>
       </div>
       <div className="fade-in full-center sm:hidden mt-[19px]">
-        <button className="full-center glass hover:opacity-80 text-[#404040] bg-primary rounded-lg text-base gap-2.5 w-[206px] h-[56px]">
+        <button className="btn btn-accent">
           <IconView />
           مشاهده تمام مقالات
         </button>

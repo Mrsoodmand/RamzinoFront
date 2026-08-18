@@ -134,6 +134,227 @@ body.dark {
   right: -125%;
 }
 
+/* ---------------------------------------------------------------------------
+   Buttons — liquid glass
+   ---------------------------------------------------------------------------
+   A translucent fill over a blurred backdrop, a bright 1px rim along the top,
+   and on hover a light that runs along the rim while the fill deepens toward
+   petrol. Width comes from padding, not a fixed px value, so Persian labels of
+   different lengths all fit.
+
+   Glass needs something behind it to refract, so the translucent treatment is
+   opt-in via .btn-glass and belongs only on the rich gradient sections. The
+   default fill is near-opaque, because over a white card a 42%-alpha teal is a
+   pale grey that white label text cannot sit on — that default keeps every
+   button legible wherever it lands.
+
+   Markup: <a class="btn btn-primary">label</a> — no wrapper element needed.
+   Both effect layers sit at z-index -1 inside the button's own stacking
+   context (hence `isolation: isolate`), which paints them above the button's
+   background but below its text, so the label never needs lifting.
+--------------------------------------------------------------------------- */
+.btn {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  height: 50px;
+  padding: 0 24px;
+  border-radius: 16px;
+  font-size: 15px;
+  font-weight: 500;
+  overflow: hidden;
+  cursor: pointer;
+  /* No border or ring: the shape is carried by the fill, the top highlight and
+     the drop shadow alone. The keyboard focus ring below is the one exception,
+     and it only appears on :focus-visible. */
+  border: 0;
+  color: #fff;
+  /* The colour shift is slow and deliberate; the press stays quick, since
+     tactile feedback has to feel immediate to read as a press at all. */
+  transition:
+    background 0.55s ease,
+    box-shadow 0.55s ease,
+    transform 0.16s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Icons sitting next to a label. */
+.btn > svg,
+.btn > img {
+  position: relative;
+  margin-inline-end: 8px;
+}
+
+/* Top rim highlight — the edge that reads as a lit pane of glass. */
+.btn::after {
+  content: "";
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 0;
+  height: 1px;
+  z-index: -1;
+  background: linear-gradient(to left,
+      transparent,
+      rgba(255, 255, 255, 0.9),
+      transparent);
+}
+
+/* The travelling rim light. Masked to a 1.5px ring by compositing a
+   content-box fill out of a full-size one, so only the border band shows. */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  padding: 1.5px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  /* The sweep has to start and end fully outside the button, or the loop is
+     visibly seamed. A percentage background-position resolves to
+     (containerWidth - imageWidth) * p, so at 50% width the band clears the
+     left edge at -100% and the right edge at 200% — off-window at both ends,
+     making the restart invisible. no-repeat matters too: the default `repeat`
+     tiles the gradient, and the travel is not a whole number of tiles, so the
+     tiling phase jumped every cycle. */
+  background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(159, 243, 234, 0.95) 50%,
+      transparent 100%);
+  background-size: 50% 100%;
+  background-repeat: no-repeat;
+  background-position: -100% 0;
+  transition: opacity 0.5s ease;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+}
+
+.btn:hover::before {
+  opacity: 1;
+  animation: btnEdgeRun 2.8s linear infinite;
+}
+
+@keyframes btnEdgeRun {
+  from {
+    background-position: -100% 0;
+  }
+
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.btn:active {
+  transform: scale(0.965);
+}
+
+.btn:focus-visible {
+  outline: 2px solid #9ff3ea;
+  outline-offset: 6px;
+}
+
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-primary {
+  background: rgba(43, 117, 140, 0.92);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.5),
+    0 10px 26px -12px rgba(4, 40, 50, 0.65);
+}
+
+.btn-accent {
+  background: rgba(78, 223, 212, 0.9);
+  color: #06312f;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    0 10px 26px -12px rgba(10, 90, 88, 0.6);
+}
+
+.btn-clear {
+  background: rgba(255, 255, 255, 0.62);
+  color: #14535f;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    0 8px 20px -12px rgba(43, 117, 140, 0.55);
+}
+
+/* Opt-in translucency, for buttons sitting on the gradient sections. The
+   backdrop blur lives here rather than on .btn so the near-opaque default
+   doesn't pay for a filter it cannot show. */
+.btn-glass {
+  -webkit-backdrop-filter: blur(16px) saturate(190%);
+  backdrop-filter: blur(16px) saturate(190%);
+}
+
+.btn-glass.btn-primary {
+  background: rgba(43, 117, 140, 0.42);
+}
+
+.btn-glass.btn-accent {
+  background: rgba(78, 223, 212, 0.4);
+}
+
+.btn-glass.btn-clear {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.45),
+    0 8px 22px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* Hover deepens toward petrol rather than brightening. A brighter fill would
+   drop white label text to roughly 3.7:1; this lands near 8:1. */
+.btn-primary:hover,
+.btn-accent:hover,
+.btn-clear:hover {
+  background: rgba(7, 64, 84, 0.72);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    0 14px 30px -14px rgba(3, 45, 52, 0.8);
+}
+
+.btn-sm {
+  height: 42px;
+  padding: 0 18px;
+  font-size: 13.5px;
+  border-radius: 13px;
+}
+
+.btn-lg {
+  height: 58px;
+  padding: 0 30px;
+  font-size: 16px;
+  border-radius: 19px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .btn,
+  .btn::before {
+    transition: none;
+  }
+
+  .btn:hover::before {
+    animation: none;
+  }
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -369,7 +590,116 @@ button {
 
 /* animations  */
 
+/* Gateway payment-flow overlay. `pathLength="100"` on every route normalises
+   them all to a 0–100 scale, so this one keyframe drives a comet of the same
+   visual length along routes of very different real lengths. */
+/* Routes are authored logo→hub, but the pulse runs the other way: the dash
+   starts parked past the path's end and finishes parked before its start, so
+   it travels hub→logo — the store reaching out to the networks. */
+@keyframes pfFlow {
+  from {
+    stroke-dashoffset: -100;
+  }
+
+  to {
+    stroke-dashoffset: 14;
+  }
+}
+
+.pf-trail {
+  stroke-dasharray: 14 100;
+  animation: pfFlow 3s linear infinite;
+  filter: drop-shadow(0 0 3px rgba(108, 228, 219, 0.9));
+}
+
+/* Fires late in the cycle, when the reversed pulse actually reaches the chip. */
+@keyframes pfChip {
+  0%,
+  74%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+
+  88% {
+    opacity: 0.9;
+    transform: scale(1.06);
+  }
+}
+
+.pf-chip {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pfChip 3s ease-out infinite;
+}
+
+@keyframes pfHub {
+  0% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+
+  70%,
+  100% {
+    opacity: 0;
+    transform: scale(1.35);
+  }
+}
+
+.pf-hub {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pfHub 1.5s ease-out infinite;
+}
+
+/* `animate-spin-360` supplies the rotation; these make it turn about the
+   circle's own centre rather than the SVG's origin. */
+.pf-orbit {
+  opacity: 0.45;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* The store's total is remounted on every new value (React keys it by the
+   amount), so this replays as a soft swap rather than a jump. */
+@keyframes pfAmount {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pf-amount {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pfAmount 0.5s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .payment-flow {
+    display: none;
+  }
+
+  .pf-amount {
+    animation: none;
+  }
+}
+
+/* Scroll reveal. Visible by default so content is never gated on JS: the
+   hidden start state is added by hooks/useScroll.js, and only to elements
+   that are actually below the fold. If JS never runs, everything shows. */
 .fade-in {
+  opacity: 1;
+}
+
+.fade-in.reveal-pending {
   opacity: 0;
   transform: translateY(30px);
   -webkit-transform: translateY(30px);
@@ -381,6 +711,27 @@ button {
 .fade-in[data-animation="active"] {
   animation: bottom-top-animation 1s ease-in-out forwards;
   -webkit-animation: bottom-top-animation 1s ease-in-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in.reveal-pending {
+    opacity: 1;
+    transform: none;
+    -webkit-transform: none;
+  }
+
+  /* Decorative loops only — the steps still light up, they just stop moving. */
+  .animate-rail-packet,
+  .animate-tip-ping,
+  .animate-halo-pulse,
+  .animate-icon-float {
+    animation: none;
+  }
+
+  .animate-rail-packet,
+  .animate-tip-ping {
+    opacity: 0;
+  }
 }
 
 .animation-scale,
@@ -905,7 +1256,10 @@ input[type="number"] {
   text-decoration: underline;
 }
 
-.mainBlog img {
+.mainBlog img,
+.mainBlog input[type="image"],
+.mainBlog video,
+.mainBlog iframe {
   max-width: 100%;
   height: auto;
   border-radius: 8px;

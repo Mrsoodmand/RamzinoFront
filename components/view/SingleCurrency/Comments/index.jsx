@@ -25,7 +25,7 @@ function Comments() {
         </div>
         <button
           onClick={() => setOpenComment(true)}
-          className="full-center bg-primary w-[129px] sm:w-[148px] h-12 sm:h-[56px] rounded-[7px] sm:rounded-lg text-[#404040] hover:opacity-80 glass"
+          className="btn btn-accent"
         >
           ثبت نظر
         </button>
