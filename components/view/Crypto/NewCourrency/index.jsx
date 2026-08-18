@@ -14,7 +14,7 @@ function NewCourrency() {
         </h3>
         <button
           title="لیست 2,000 ارز دیگر"
-          className="full-center gap-1.5 sm:gap-2.5 text-primaryText bg-primary w-[169px] sm:w-[206px] h-[46px] sm:h-[56px] rounded-md sm:rounded-lg glass hover:opacity-90 text-[13px] sm:text-base"
+          className="btn btn-accent"
         >
           <AddIcon>
             <IconCourency className="scale-90 sm:scale-100" />

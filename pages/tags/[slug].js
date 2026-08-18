@@ -1,7 +1,7 @@
 import Breadcrumb from "components/common/Breadcrumb";
 import Seo from "components/common/Seo";
 import MainLayout from "components/layout/MainLayout";
-import CardBlog from "components/view/Blogs/LastBlogs/CardBlog";
+import BlogCard from "components/common/BlogCard";
 import serverFetcher from "hooks/useFetcher/serverFetcher";
 
 function TagPage({ pageData }) {
@@ -20,11 +20,9 @@ function TagPage({ pageData }) {
         <h1 className="text-[#262931] dark:text-[#fff] font-semibold text-xl sm:text-2xl mb-6 sm:mb-10">
           مقالات با برچسب #{data?.tag?.name}
         </h1>
-        <div className="grid grid-cols-12 gap-y-[18px] sm:gap-y-[27px] gap-x-3">
-          {data?.blogs?.map((e) => (
-            <div key={e?.id} className="col-span-12 sm:col-span-6 lg:col-span-4">
-              <CardBlog data={e} />
-            </div>
+        <div className="grid grid-cols-1 items-start gap-3 sm:grid-cols-2 sm:gap-5 xl:grid-cols-3">
+          {data?.blogs?.map((e, i) => (
+            <BlogCard key={e?.id ?? i} data={e} index={i} />
           ))}
         </div>
       </main>

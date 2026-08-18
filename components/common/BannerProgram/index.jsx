@@ -30,14 +30,14 @@ const BannerProgram = () => {
           <div className="w-full flex items-center gap-2 sm:gap-2.5">
             <button
               title="دریافت از بازار"
-              className="hover:opacity-80 bg-[#2B758C] text-[#fff] w-[154px] sm:w-[185px] lg:w-[215px] h-[43px] sm:h-[52px] lg:h-[60px] font-medium lg:text-[16px] text-[12px] flex items-center justify-center gap-2 lg:gap-[14px] rounded-md sm:rounded-[10px]"
+              className="btn btn-primary"
             >
               <MarketIcon className="scale-75 lg:scale-100" />
               دریافت از بازار
             </button>
             <button
               title="دریافت از مایکت"
-              className="hover:opacity-80 bg-[#2B758C] text-[#fff] w-[154px] sm:w-[185px] lg:w-[215px] h-[43px] sm:h-[52px] lg:h-[60px] font-medium lg:text-[16px] text-[12px] flex items-center justify-center gap-2 lg:gap-[14px] rounded-md sm:rounded-[10px]"
+              className="btn btn-primary"
             >
               <Myket className="scale-75 lg:scale-100" />
               دریافت از بازار

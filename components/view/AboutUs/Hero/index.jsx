@@ -13,7 +13,7 @@ function HeroSection({ data }) {
             {data?.shortDetail}
           </p>
           <Link
-            className="text-[#404040] full-center bg-primary w-[111px] sm:w-[166px] h-[42px] sm:h-[56px] rounded-lg glass hover:opacity-80 text-[13px] sm:text-base"
+            className="btn btn-accent"
             href="/contact-us"
           >
             تماس با ما

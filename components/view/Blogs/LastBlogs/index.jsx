@@ -18,7 +18,7 @@ function LastBlogs({ data }) {
         ))}
       </div>
       <div className="full-center sm:hidden mt-[19px]">
-        <button className="full-center glass hover:opacity-80 text-[#404040] bg-primary rounded-lg text-base gap-2.5 w-[206px] h-[56px]">
+        <button className="btn btn-accent">
           <IconView />
           مشاهده همه خبر ها
         </button>

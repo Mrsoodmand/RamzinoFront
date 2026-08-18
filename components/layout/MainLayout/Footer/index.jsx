@@ -113,15 +113,24 @@ function Footer() {
       <div className="relative h-[400px] -top-[60px]">
         {/* BOTTOM CURVED GRADIENT */}
 
-        <img
-          src="/images/landing/footer-vector.webp"
-          alt="gateway"
-          className="absolute left-1/2 -translate-x-1/2 top-[60%] lg:top-[50%] w-full max-w-[750px]"
-        />
+        {/* Wrapper keeps the horizontal centering transform, so the spin
+            animation is free to own the transform on the image itself. */}
+        <div className="absolute left-1/2 -translate-x-1/2 top-[60%] lg:top-[50%] w-full max-w-[750px]">
+          <img
+            src="/images/landing/footer-vector.webp"
+            alt="gateway"
+            className="animate-spin-360 w-full"
+          />
+        </div>
       </div>
 
       <footer className="w-full pb-8 relative z-20 backdrop-blur-sms">
-        <div className="pointer-events-none -z-10 absolute -bottom-[0] left-0 right-0 h-[85%] xl:h-[80%] bg-gradient-to-b from-transparent backdrop-blur-sm blur-sm to-[var(--footer-bg,#041C22)] bg-[rgba(255,255,255,0.8)] dark:bg-[rgba(6,28,34,0.8)]" />
+        {/* Anchored to the bottom, so a percentage height leaves the top of the
+            footer uncovered. The stacked mobile footer is tall enough that the
+            85% band starts below the logo row — right where the spinning coin
+            artwork overlaps — leaving the coins sharp and fighting the content.
+            Below sm the wash covers the full height instead. */}
+        <div className="pointer-events-none -z-10 absolute -bottom-[0] left-0 right-0 h-full sm:h-[85%] xl:h-[80%] bg-gradient-to-b from-transparent backdrop-blur-sm blur-sm to-[var(--footer-bg,#041C22)] bg-[rgba(255,255,255,0.8)] dark:bg-[rgba(6,28,34,0.8)]" />
         <div className="absolute -z-20 blur-lg lg:-top-[100px] left-1/2 -translate-x-1/2 w-[100%] h-[200px] bg-[linear-gradient(to_top,rgba(0,233,240,0.35),transparent_80%)] pointer-events-none" />
 
         <section className="container relative">
@@ -355,7 +364,7 @@ function Footer() {
               />
               <button
                 type="submit"
-                className="full-center bg-primary text-primaryText rounded-[5px] h-12 sm:h-[53px] px-5 sm:px-6 text-sm sm:text-base glass hover:opacity-80 whitespace-nowrap"
+                className="btn btn-accent whitespace-nowrap"
               >
                 عضویت
               </button>

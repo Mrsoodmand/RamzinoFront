@@ -16,7 +16,7 @@ function Hero() {
             کوین
           </p>
           <div className="center gap-[18px] sm:gap-5 mt-6">
-            <button className="text-sm sm:text-base full-center text-primaryText rounded-[7px] sm:rounded-lg w-2/4 sm:w-[166px] h-[51px] sm:h-[56px] bg-primary glass">
+            <button className="btn btn-accent">
               ساخت کلید API
             </button>
             <button className="text-sm sm:text-base full-center text-primaryText rounded-[7px] sm:rounded-lg w-2/4 sm:w-[166px] h-[51px] sm:h-[56px] border border-solid border-[#CBCBCB] dark:border-[#1C353D] hover:bg-white hover:border-opacity-0 hover:shadow-medium dark:text-[#EDEDED]">

@@ -65,7 +65,7 @@ function Form({ post_id }) {
         id="comment"
       />
       <div className="center-end mt-[22px]">
-        <button className="full-center text-[#0C0C0C] bg-primary rounded-[2px] w-[130px] sm:w-[169px] h-11 sm:h-[57px] gap-2 sm:gap-2.5 glass hover:opacity-80 text-xs sm:text-base">
+        <button className="btn btn-accent text-[#0C0C0C] h-11">
           افزودن دیدگاه
           <IconPlase className="scale-90 sm:scale-100" />
         </button>

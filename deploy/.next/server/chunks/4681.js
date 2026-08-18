@@ -1,0 +1,1 @@
+"use strict";exports.id=4681,exports.ids=[4681],exports.modules={4681:(t,e,r)=>{r.r(e),r.d(e,{default:()=>s});let s=function({children:t}){return t}}};

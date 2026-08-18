@@ -162,7 +162,7 @@ const SwapBox = () => {
         </div>
         <button
           title="همین الان خرید کن"
-          className="flex md:text-[16px] h-[41px] md:h-[60px] text-[11px] font-medium py-3 md:py-4  justify-center  items-center gap-4 w-full bg-primary rounded-lg dark:text-[#0c0c0c]"
+          className="btn btn-accent py-3 md:py-4 w-full dark:text-[#0c0c0c]"
         >
           <AddIcon>
             <ShopIcon className="dark:[&>path]:stroke-[#0c0c0c] scale-90 md:scale-100 [&>path]:stroke-[#0c0c0c]" />

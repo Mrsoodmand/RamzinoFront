@@ -15,7 +15,7 @@ function Hero() {
           <div className="font-normal text-[#3C3C3C] dark:text-[#DFDFDF] text-[15px] sm:text-xl mb-6">
             برای مشاهده سطح کارمزد معاملات خود، ابتدا وارد شوید.
           </div>
-          <button className="rounded-[7px] sm:rounded-lg glass hover:opacity-80 full-center bg-primary text-primaryText w-[175px] sm:w-[166px] h-[51px] sm:h-[56px] text-sm sm:text-base">
+          <button className="btn btn-accent">
             ورود به حساب کاربری
           </button>
         </div>

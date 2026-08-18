@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import classes from "hooks/classes";
 import RippleEffect from "../../../common/BannerProgram/RippleEffect";
+import CoinStack from "./CoinStack";
+import CryptoOrbit from "./CryptoOrbit";
 import { Autoplay, Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -80,23 +82,15 @@ function Services() {
             )}
             <Link
               href="https://panel.ramzino.me/user/login"
-              className="mt-6 mx-auto lg:mx-0 text-center bg-primaryDark w-[180px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+              className="btn btn-primary mt-6 mx-auto lg:mx-0 text-center"
             >
               شروع معامله
             </Link>
           </div>
 
-          <img
-            src="/images/landing/vector-1.webp"
-            alt="vector-1"
-            className="h-[350px] grow object-cover dark:hidden"
-          />
-
-          <img
-            src="/images/landing/vector-1-dark.webp"
-            alt="vector-1"
-            className="h-[350px] grow object-cover hidden dark:block"
-          />
+          {/* replaces vector-1.webp / vector-1-dark.webp — one animated
+              component that themes itself instead of two exported images */}
+          <CoinStack className="grow" />
         </div>
       </section>
 
@@ -110,16 +104,7 @@ function Services() {
         {/* Bottom-left glow */}
         <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(15%_65%_at_-5%_105%,#bffbfb_0%,#dfffff_35%,rgba(255,255,255,0)_70%)] dark:hidden" />
 
-        <img
-          src="/images/landing/vector-2.webp"
-          alt="vector-2"
-          className="dark:hidden"
-        />
-        <img
-          src="/images/landing/vector-2-dark.webp"
-          alt="vector-2"
-          className="hidden dark:block"
-        />
+        <CryptoOrbit />
 
         <div className="lg:mt-0">
           <h2 className="text-2xl text-center lg:text-right sm:text-[34px] font-semibold mb-2.5 sm:mb-4 text-title leading-10 sm:leading-[50px]">
@@ -132,7 +117,7 @@ function Services() {
           </span>
           <Link
             href="https://panel.ramzino.me/user/login"
-            className="mt-6 mx-auto lg:mx-0 text-center bg-primaryDark w-[180px] text-base h-[50px] rounded-[8px] font-semibold glass text-[#fff] flex items-center justify-center"
+            className="btn btn-primary mt-6 mx-auto lg:mx-0 text-center"
           >
             ورود به بازار
           </Link>
@@ -274,7 +259,7 @@ function Services() {
 
         <Link
           href="https://panel.ramzino.me/user/login"
-          className="mt-6 text-center bg-primaryDark w-[190px] text-base h-[50px] rounded-[8px] font-semibold lg:full-center glass text-[#fff] flex items-center justify-center mx-auto mb-[600px]"
+          className="btn btn-primary mt-6 text-center mx-auto mb-[600px]"
         >
           شروع پذیرش پرداخت
         </Link>

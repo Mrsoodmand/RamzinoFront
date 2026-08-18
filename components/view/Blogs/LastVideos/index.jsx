@@ -44,7 +44,7 @@ function LastVideos({ data }) {
         <div className="text-title font-semibold text-[22px] sm:text-2xl">
           آخرین ویدیو ها
         </div>
-        <button className="hidden sm:full-center glass hover:opacity-80 text-[#404040] bg-primary rounded-lg text-base gap-2.5 w-[206px] h-[56px]">
+        <button className="btn btn-accent hidden">
           <IconVideo />
           مشاهده تمام مقالات
         </button>
