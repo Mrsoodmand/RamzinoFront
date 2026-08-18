@@ -17,9 +17,14 @@ import { useEffect, useRef, useState } from "react";
  * regardless of how long each actual path is.
  */
 
-// Where each connector meets its logo chip, the shared trunk at x=398, and the
+// Where each connector meets its logo chip, the shared trunk at x=396, and the
 // arrowhead at the hub (370, 281.5). Routes are authored logo→hub; the pulse
 // runs along them in reverse, so it reads as the store reaching outward.
+//
+// The trunk was authored at x=398 by eye, but the baked line it traces covers
+// x=395–397 — dead centre 396. Two pixels was enough to push the 3px bright
+// stroke off its grey track, so the pulse ran as a second line flush alongside
+// the artwork's own instead of on top of it.
 //
 // `cy` is the chip's real centre, measured off the artwork's alpha channel —
 // all five sit at x=463.5 with a radius of 38, not the 32.5 first assumed.
@@ -27,13 +32,13 @@ import { useEffect, useRef, useState } from "react";
 // baked into the raster, so they're covered rather than swapped: an opaque disc
 // slightly wider than the chip, with the coin on top.
 const LANES = [
-  { id: "apple", d: "M454 111 Q400 146 398 170 L398 258 Q398 278 370 281.5", cy: 97, coin: "BTC" },
-  { id: "mastercard", d: "M441 202 Q402 214 398 228 L398 258 Q398 278 370 281.5", cy: 189, coin: "ETH" },
+  { id: "apple", d: "M454 111 Q398 146 396 170 L396 258 Q396 278 370 281.5", cy: 97, coin: "BTC" },
+  { id: "mastercard", d: "M441 202 Q400 214 396 228 L396 258 Q396 278 370 281.5", cy: 189, coin: "ETH" },
   { id: "paypal", d: "M426 281.5 L370 281.5", cy: 281.5, coin: "USDT" },
-  { id: "gpay", d: "M432 359 Q402 350 398 338 L398 306 Q398 285 370 281.5", cy: 374, coin: "BNB" },
+  { id: "gpay", d: "M432 359 Q400 350 396 338 L396 306 Q396 285 370 281.5", cy: 374, coin: "BNB" },
   {
     id: "klarna",
-    d: "M446 451 Q420 432 404 408 Q398 401 398 392 L398 306 Q398 285 370 281.5",
+    d: "M446 451 Q420 432 402 408 Q396 401 396 392 L396 306 Q396 285 370 281.5",
     cy: 466,
     coin: "BCH",
   },

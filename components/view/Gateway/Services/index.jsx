@@ -285,10 +285,12 @@ function Services() {
                     every dot at its original size — 15KB instead of 248KB, the
                     smallest any full-size encode of that texture came out at.
                     Repeating also means it never scales, so it stays crisp on
-                    any card width. 0.4 opacity matches the source. */}
+                    any card width. Dialled below the source's 0.4 so the
+                    speckle reads as texture behind the copy rather than
+                    competing with it. */}
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 -z-10 opacity-40"
+                  className="pointer-events-none absolute inset-0 -z-10 opacity-20"
                   style={{
                     backgroundImage: "url(/images/landing/grain.webp)",
                     backgroundRepeat: "repeat",
