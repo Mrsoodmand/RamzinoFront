@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 import { Autoplay, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-function SliderBanners({ data }) {
+function SliderBanners({ data, className = "mt-10" }) {
   const { push } = useRouter();
 
   return (
-    <section className="mt-10 container-pagination">
+    <section className={`container-pagination ${className}`}>
       <Swiper
         modules={[Pagination, Autoplay]}
         pagination={{ clickable: true }}

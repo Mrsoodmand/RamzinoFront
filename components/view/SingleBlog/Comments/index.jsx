@@ -1,139 +1,136 @@
-import dynamic from "next/dynamic";
-import Form from "./Form";
-import Image from "next/image";
-import useSWR from "swr";
+import classes from "hooks/classes";
 import useFetcher from "hooks/useFetcher";
-import { useEffect, useState } from "react";
+import { toTime } from "hooks/faDate";
+import dynamic from "next/dynamic";
+import { useEffect, useMemo, useRef, useState } from "react";
+import Comment from "./Comment";
+import Form from "./Form";
 
-const IconReplay = dynamic(() => import("icons/Blog/IconReplay.svg"), {
-  ssr: false,
-});
-const IconLike = dynamic(() => import("icons/Blog/IconLike.svg"), {
-  ssr: false,
-});
-const IconView = dynamic(() => import("icons/Blog/IconView.svg"), {
-  ssr: false,
-});
 const IconMore = dynamic(() => import("icons/Blog/IconMore.svg"), {
   ssr: false,
 });
 
+const PAGE_SIZE = 4;
+
+const SORTS = [
+  { key: "newest", label: "جدیدترین" },
+  { key: "liked", label: "محبوب‌ترین" },
+];
+
 function Comments({ post_id }) {
-  const { get } = useFetcher();
+  const { get } = useFetcher(false);
   const [page, setPage] = useState(1);
-  const [data, setData] = useState({ comments: [] });
+  const [comments, setComments] = useState([]);
+  const [paginate, setPaginate] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [sort, setSort] = useState("newest");
+
+  // Guards the double invoke React's strict mode does in development, which
+  // would otherwise fetch page 1 twice and append it to itself.
+  const requested = useRef(0);
 
   useEffect(() => {
-    const handelFetch = async () => {
-      get(
-        `comment/list?type=blog&post_id=${post_id}&paginate=true&count=4&page=${page}`,
-        (res) => {
-          const copy = { ...res?.data?.data, ...data };
-          copy.comments = [...copy.comments, ...res?.data?.data?.comments];
-          setData(copy);
-        }
-      );
-    };
+    if (!post_id || requested.current === page) return;
+    requested.current = page;
 
-    handelFetch();
-  }, [page]);
+    setLoading(true);
+    get(
+      `comment/list?type=blog&post_id=${post_id}&paginate=true&count=${PAGE_SIZE}&page=${page}`,
+      (res) => {
+        // The endpoint returns { comments, paginate } at the top level. The
+        // previous code read res.data.data, which is undefined — spreading it
+        // threw and the list never rendered at all.
+        const payload = res?.data;
+        const incoming = payload?.comments || [];
+
+        setComments((current) => {
+          const seen = new Set(current.map((item) => item?.id));
+          return [...current, ...incoming.filter((item) => !seen.has(item?.id))];
+        });
+        setPaginate(payload?.paginate || null);
+      },
+    ).finally(() => setLoading(false));
+  }, [page, post_id]);
+
+  const sorted = useMemo(() => {
+    const list = [...comments];
+    if (sort === "liked") {
+      return list.sort((a, b) => (b?.like || 0) - (a?.like || 0));
+    }
+    return list.sort((a, b) => toTime(b?.created_at) - toTime(a?.created_at));
+  }, [comments, sort]);
+
+  const total = paginate?.totalItems ?? comments.length;
+  const hasMore = paginate ? paginate.lastPage > page : false;
 
   return (
-    <section className="mt-9 sm:mt-16 container">
-      <div className="fade-in text-[#373A41] dark:text-[#fff] font-semibold text-base sm:text-[22px]">
-        نظرات کاربران
+    <section className="container mt-9 sm:mt-16">
+      <div className="fade-in center-between flex-wrap gap-3">
+        <h2 className="center gap-2.5 text-base font-semibold text-title sm:text-[22px]">
+          نظرات کاربران
+          {total > 0 && (
+            <span className="rounded-full bg-themeColor px-2.5 py-0.5 text-xs font-medium text-[#5C6165] dark:text-[#8FA3AB]">
+              {Number(total).toLocaleString("fa-IR")}
+            </span>
+          )}
+        </h2>
+
+        {comments.length > 1 && (
+          <div className="center gap-1 rounded-[4px] bg-themeColor p-1">
+            {SORTS.map((option) => (
+              <button
+                key={option.key}
+                onClick={() => setSort(option.key)}
+                aria-pressed={sort === option.key}
+                className={classes(
+                  "rounded-[3px] px-3 py-1.5 text-[12px] transition-colors duration-300 sm:text-[13px]",
+                  sort === option.key
+                    ? "bg-white font-semibold text-title"
+                    : "text-[#5C6165] hover:text-title dark:text-[#8FA3AB]",
+                )}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
+
       <Form post_id={post_id} />
 
-      {data?.comments?.length ? (
-        <ul className="mt-5 sm:mt-[25px]">
-          {data?.comments?.map((e, i) => (
-            <li
-              key={e?.id}
-              className="fade-in w-full border border-solid border-[#B3B5B7] dark:border-[#0F2329] rounded-[4px] px-[14px] sm:px-[26px] py-[16px] sm:py-[21px] mb-[15px] sm:mb-[19px] last:mb-0"
-            >
-              <div className="center-between">
-                <div className="center gap-1 sm:gap-[5px] text-[#43464C] dark:text-[#fff] font-semibold dark:font-medium">
-                  <Image
-                    src={e?.image}
-                    alt={e?.name}
-                    width={35}
-                    height={35}
-                    layout="fixed"
-                    className="rounded-full max-w-[27px] sm:max-w-[35px]"
-                  />
-                  <span className="text-xs">{e?.name}</span>
-                  <span className="dark:text-[#E3E2E1] text-[11px] sm:text-sm">
-                    {new Date(e?.created_at)?.toLocaleDateString("fa-IR", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </span>
-                </div>
-                {/* <button className="center text-[#43464C] dark:text-[#E3E2E1] text-[11px] sm:text-sm gap-0.5 sm:gap-2 hover:opacity-80">
-                  <IconReplay className="dark:[&>path]:stroke-[#E3E2E1] scale-[0.8] sm:scale-100" />
-                  پاسخ به نظر
-                </button> */}
-              </div>
-              <div className="text-[#43464C] dark:text-[#DFDFDF] text-xs sm:text-base leading-[19px] sm:leading-[25px] my-[14px] sm:my-[18px] text-justify">
-                {e?.comment}
-              </div>
-
-              {e?.reply?.length ? (
-                <ul className="mt-6">
-                  {e?.reply?.map((e, i) => (
-                    <li
-                      key={e?.id}
-                      className="fade-in w-full border border-solid border-[#B3B5B7] dark:border-[#0F2329] rounded-[4px] px-[14px] sm:px-[26px] py-[16px] sm:py-[21px] mb-[15px] sm:mb-[19px] last:mb-0"
-                    >
-                      <div className="center-between">
-                        <div className="center gap-1 sm:gap-[5px] text-[#43464C] dark:text-[#fff] font-semibold dark:font-medium">
-                          <Image
-                            src={e?.image}
-                            alt={e?.name}
-                            width={35}
-                            height={35}
-                            layout="fixed"
-                            className="rounded-full max-w-[27px] sm:max-w-[35px]"
-                          />
-                          <span className="text-xs">{e?.name}</span>
-                          <span className="dark:text-[#E3E2E1] text-[11px] sm:text-sm">
-                            {new Date(e?.created_at)?.toLocaleDateString(
-                              "fa-IR",
-                              {
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              }
-                            )}
-                          </span>
-                        </div>
-                        {/* <button className="center text-[#43464C] dark:text-[#E3E2E1] text-[11px] sm:text-sm gap-0.5 sm:gap-2 hover:opacity-80">
-                          <IconReplay className="dark:[&>path]:stroke-[#E3E2E1] scale-[0.8] sm:scale-100" />
-                          پاسخ به نظر
-                        </button> */}
-                      </div>
-                      <div className="text-[#43464C] dark:text-[#DFDFDF] text-xs sm:text-base leading-[19px] sm:leading-[25px] my-[14px] sm:my-[18px] text-justify">
-                        {e?.comment}
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </li>
+      {sorted.length ? (
+        <ul className="mt-6 flex flex-col gap-5 sm:mt-8 sm:gap-7">
+          {sorted.map((comment, i) => (
+            <Comment
+              key={comment?.id}
+              data={comment}
+              className={
+                i === 0
+                  ? ""
+                  : "border-t border-solid border-[#DFE0E1] pt-5 dark:border-[#003E52] sm:pt-7"
+              }
+            />
           ))}
         </ul>
-      ) : null}
+      ) : (
+        !loading && (
+          <p className="fade-in mt-6 text-center text-[13px] leading-[1.9] text-[#5C6165] dark:text-[#8FA3AB] sm:mt-8 sm:text-sm">
+            هنوز دیدگاهی ثبت نشده است. اولین نفری باشید که نظرش را می‌نویسد.
+          </p>
+        )
+      )}
 
-      {data?.paginate?.lastPage !== page && (
-        <div
-          onClick={() => setPage((c) => c + 1)}
-          className="fade-in full-center mt-5 sm:mt-7"
-        >
-          <button className="full-center text-[#373A41] border border-solid border-[#D4D4D4] w-[200px] sm:w-[230px] h-[50px] sm:h-[57px] rounded-[4px] hover:bg-white hover:shadow-medium glass gap-1.5 sm:gap-2.5 dark:border-[#1B3D48] dark:text-[#FAFAFA]  text-[13px] sm:text-base">
-            نمایش دیدگاه های بیشتر
-            <IconMore className="dark:[&>path]:stroke-[#FAFAFA] scale-90 sm:scale-100" />
+      {hasMore && (
+        <div className="fade-in full-center mt-5 sm:mt-7">
+          <button
+            onClick={() => setPage((c) => c + 1)}
+            disabled={loading}
+            className="glass full-center h-[50px] w-[200px] gap-1.5 rounded-[4px] border border-solid border-[#D4D4D4] text-[13px] text-[#373A41] hover:bg-white hover:shadow-medium disabled:opacity-60 dark:border-[#1B3D48] dark:text-[#FAFAFA] sm:h-[57px] sm:w-[230px] sm:gap-2.5 sm:text-base"
+          >
+            {loading ? "در حال بارگذاری…" : "نمایش دیدگاه های بیشتر"}
+            {!loading && (
+              <IconMore className="scale-90 dark:[&>path]:stroke-[#FAFAFA] sm:scale-100" />
+            )}
           </button>
         </div>
       )}

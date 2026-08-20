@@ -110,7 +110,15 @@ function Footer() {
       </div>
       */}
 
-      <div className="relative h-[400px] -top-[60px]">
+      {/* The artwork below spins a full turn, and a rotating box sweeps out its
+          own diagonal: at 375px wide the image's bounding box grows to ~508px,
+          hanging ~67px past each edge and giving every page a horizontal
+          scroll that came and went with the rotation. Clipping on x only —
+          `overflow-y` stays visible — keeps the coins bleeding past the top and
+          bottom of this box as designed while pinning the sides to the layout.
+          The same happens at tablet widths, where the 750px cap still sweeps
+          wider than the viewport, so this is not a mobile-only guard. */}
+      <div className="relative h-[400px] -top-[60px] overflow-x-clip">
         {/* BOTTOM CURVED GRADIENT */}
 
         {/* Wrapper keeps the horizontal centering transform, so the spin

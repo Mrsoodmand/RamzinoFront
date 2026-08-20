@@ -1,45 +1,96 @@
+import { useId } from "react";
 import classes from "hooks/classes";
-import IconNext from "icons/Home/IconNext.svg";
-import AddIcon from "../addIcon";
 
+// One FAQ row, shared by the home, gateway, buy/sell and FAQ-page lists.
+//
+// Closed, the row is a hairline rule — the design system keeps surfaces
+// strokeless and lets rules carry a list. Open, it becomes a tinted panel with
+// a filled marker, so the expanded answer reads as its own surface rather than
+// as loose text hanging under a heading. Both states share the same padding so
+// nothing shifts sideways when it opens.
+//
+// The answer stays in the DOM when collapsed — these are the answers search
+// engines index — but `inert` keeps it out of the tab order and the
+// accessibility tree, so a screen reader no longer reads every answer as open.
 function ItemFaq({ open, setOpen, i, data }) {
+  const uid = useId();
+  const isOpen = open === i;
+
   return (
-    <li className="border border-solid border-[#D9D9D9] dark:border-[#0F3F4E] rounded-[3px] sm:rounded-[5px] mb-2.5 sm:mb-[14px] w-full">
-      <button
-        title={data?.question}
-        onClick={() => setOpen((c) => (c === i ? null : i))}
+    <li className="border-b border-solid border-[#E6E8E8] dark:border-[#0F3F4E]">
+      <div
         className={classes(
-          "flex items-start justify-between w-full pl-3 sm:pl-5 pr-4 py-[17px] sm:py-[28px] rounded-[5px]",
-          i === open ? "" : "hover:bg-[#f5f5f5] dark:hover:bg-[#003e527a]"
+          "rounded-[8px] transition-colors duration-300 motion-reduce:transition-none",
+          isOpen ? "bg-[#F3F7F7] dark:bg-[#02222C]" : "bg-transparent"
         )}
       >
-        <div
+        <button
+          type="button"
+          id={`${uid}-q`}
+          aria-expanded={isOpen}
+          aria-controls={`${uid}-a`}
+          onClick={() => setOpen((c) => (c === i ? null : i))}
           className={classes(
-            "text-sm sm:text-base md:text-lg text-start dark:text-[#fff]",
-            open === i
-              ? "text-[#003E52] font-semibold"
-              : "text-primaryText  font-medium"
+            "grid w-full grid-cols-[minmax(0,1fr)_28px] items-center gap-4 rounded-[8px]",
+            "px-3 py-[18px] text-start transition-colors duration-200 sm:px-4 sm:py-5",
+            "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary",
+            isOpen
+              ? "text-primaryDark dark:text-primary"
+              : "text-title hover:text-primaryDark dark:hover:text-primary"
           )}
         >
-          {data?.question}
-        </div>
-        <AddIcon>
-          <IconNext
+          <span className="text-sm font-medium leading-relaxed sm:text-base">
+            {data?.question}
+          </span>
+
+          <span
+            aria-hidden="true"
             className={classes(
-              "[&>path]:stroke-title",
-              open === i ? "-rotate-90" : "rotate-90"
+              "flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-solid",
+              "transition-colors duration-300 motion-reduce:transition-none",
+              isOpen
+                ? "border-primary bg-primary text-[#0C2B2F]"
+                : "border-[#D9DDDD] text-title dark:border-[#0F3F4E]"
             )}
-          />
-        </AddIcon>
-      </button>
-      <p
-        className={classes(
-          "text-primaryText dark:text-[#DFDFDF] text-xs sm:text-sm md:text-base overflow-hidden block px-3 sm:px-5 ",
-          open === i ? " max-h-screen pb-[17px] sm:pb-[28px]" : "max-h-0"
-        )}
-      >
-        {data?.answer}
-      </p>
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              className={classes(
+                "h-3 w-3 transition-transform duration-300",
+                "ease-[cubic-bezier(.2,.8,.25,1)] motion-reduce:transition-none",
+                isOpen ? "rotate-180" : "rotate-0"
+              )}
+            >
+              <path
+                d="m6 9 6 6 6-6"
+                stroke="currentColor"
+                strokeWidth="2.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+        </button>
+
+        <div
+          id={`${uid}-a`}
+          role="region"
+          aria-labelledby={`${uid}-q`}
+          {...(isOpen ? {} : { inert: "" })}
+          className={classes(
+            "grid transition-[grid-template-rows] duration-[360ms]",
+            "ease-[cubic-bezier(.2,.8,.25,1)] motion-reduce:transition-none",
+            isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+          )}
+        >
+          <div className="overflow-hidden">
+            <p className="max-w-[65ch] px-3 pb-5 text-xs leading-[1.85] text-primaryText dark:text-[#C4D2D4] sm:px-4 sm:text-sm">
+              {data?.answer}
+            </p>
+          </div>
+        </div>
+      </div>
     </li>
   );
 }

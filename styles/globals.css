@@ -75,6 +75,21 @@ html * {
   -o-transition: all 0.5s ease;
 }
 
+/* Switching theme recolours every node at once. Against the `transition: all`
+   above that queues a transition on every animatable property of every element
+   simultaneously — a load WebKit on iOS sheds by dropping some of them, which
+   left whatever was on screen painted in the old theme until scrolling away
+   and back forced a restyle. Suppressing transitions for the swap itself turns
+   it into one synchronous repaint. Applied for a single frame by
+   handelChangeTheme, so ordinary hover transitions are untouched. */
+body.theme-switching,
+body.theme-switching *,
+body.theme-switching *::before,
+body.theme-switching *::after {
+  transition: none !important;
+  -webkit-transition: none !important;
+}
+
 html.modal {
   overflow: hidden !important;
   padding-right: 17px !important;
@@ -93,8 +108,17 @@ body {
   background-color: #fafafa;
   font-weight: 400;
   position: relative;
-  max-width: 100vw;
+  /* 100vw counts the scrollbar gutter, so on desktop it made the body a
+     handful of pixels wider than the space it actually has. */
+  max-width: 100%;
+  /* `hidden` here propagates to the viewport and leaves the body itself
+     `visible`, so anything a child overflows by still moves the page
+     sideways. `clip` clips at the body box without creating a scroll
+     container, which is what stops the page drifting left and right on
+     mobile. The `hidden` line stays first as the fallback for browsers
+     without `clip` (Safari below 16). */
   overflow-x: hidden;
+  overflow-x: clip;
   overflow-y: visible;
 }
 
@@ -463,6 +487,12 @@ button {
 }
 
 /* width */
+.none-scroll {
+  /* ::-webkit-scrollbar is Chrome and Safari only. Without this line Firefox
+     kept drawing a full default bar inside every box meant to have none. */
+  scrollbar-width: none;
+}
+
 .none-scroll::-webkit-scrollbar {
   width: 0px;
   height: 0px;
@@ -1233,6 +1263,17 @@ input[type="number"] {
   margin-bottom: 1rem;
 }
 
+/* Justified Persian body copy. Browsers ship no hyphenation dictionary for
+   fa, so a single long token on a justified line would otherwise stretch the
+   spaces around it; break-word keeps those gaps closed. Headings stay on the
+   default start alignment. */
+.mainBlog p,
+.mainBlog li {
+  text-align: justify;
+  text-justify: inter-word;
+  overflow-wrap: break-word;
+}
+
 .mainBlog ul,
 .mainBlog ol {
   margin: 1rem 0;
@@ -1264,4 +1305,198 @@ input[type="number"] {
   height: auto;
   border-radius: 8px;
   margin: 1rem 0;
+}
+
+/* Fades a searched-to paragraph in and back out on its own. Uses a background
+   wash rather than an outline so it reads as a highlighter pass over the prose
+   instead of a selected UI element. */
+@keyframes searchHit {
+  0%,
+  60% {
+    background-color: rgba(0, 233, 240, 0.22);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+.search-hit {
+  animation: searchHit 2.4s ease-out forwards;
+  border-radius: 4px;
+  box-decoration-break: clone;
+}
+
+body.dark .search-hit {
+  animation-name: searchHitDark;
+}
+
+@keyframes searchHitDark {
+  0%,
+  60% {
+    background-color: rgba(0, 233, 240, 0.16);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scrollbar — brand teal.
+
+   The bare `::-webkit-scrollbar` selector has no specificity, so `.none-scroll`
+   and `.no-scrollbar` (both class-qualified) still win wherever a box is meant
+   to have no bar at all.
+
+   The thumb is drawn 6px inside a 10px track by giving it a transparent 2px
+   border and clipping the background to the padding box — a plain 6px width
+   would shrink the track with it.
+
+   Giving ::-webkit-scrollbar an explicit width also opts Chrome out of macOS
+   overlay scrollbars, so the bar is now always drawn rather than fading in
+   only while scrolling.
+--------------------------------------------------------------------------- */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #4edfd4 rgba(78, 223, 212, 0.16);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(78, 223, 212, 0.16);
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4edfd4;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2fbfb4;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* On the dark teal page the same wash disappears into the background, so the
+   track drops to a light tint and the thumb keeps the brand colour.
+
+   The dark class lands on <body>, but the page scroller reads scrollbar-color
+   off <html> — which a rule on body cannot reach. :has() is the only way up,
+   and every browser that honours scrollbar-color at all supports it. The plain
+   body.dark rule below still covers scrollers nested inside the page, since
+   scrollbar-color inherits. */
+html:has(body.dark) {
+  scrollbar-color: #4edfd4 rgba(255, 255, 255, 0.08);
+}
+
+body.dark {
+  scrollbar-color: #4edfd4 rgba(255, 255, 255, 0.08);
+}
+
+body.dark ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark ::-webkit-scrollbar-thumb:hover {
+  background: #6fe9e0;
+  background-clip: padding-box;
+}
+
+/* ---------------------------------------------------------------------------
+   Testimonial rail — cursor spotlight + focus pull.
+
+   The card is lit from wherever the pointer is: ::after washes the surface in
+   mint, ::before draws the same gradient as a 1px rim (a full-size gradient
+   clipped to the padding ring by two masks that cancel each other out), so the
+   rim is brightest on the side the cursor is on rather than glowing evenly.
+   Both read --vx/--vy, written per frame by the component.
+
+   Pointing at one quote also dims its neighbours: the row is texture until
+   someone decides to read it, and from that moment exactly one card is lit.
+
+   All of it is gated behind a real pointer. On touch :hover sticks after a tap,
+   so without the gate a visitor would scroll away and leave a stuck spotlight
+   and five faded cards behind them.
+--------------------------------------------------------------------------- */
+.voice-card::before,
+.voice-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 260ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.voice-card::after {
+  z-index: -1;
+  background: radial-gradient(220px circle at var(--vx, 50%) var(--vy, 50%),
+      rgba(78, 223, 212, 0.2),
+      transparent 62%);
+}
+
+body.dark .voice-card::after {
+  background: radial-gradient(220px circle at var(--vx, 50%) var(--vy, 50%),
+      rgba(78, 223, 212, 0.14),
+      transparent 62%);
+}
+
+.voice-card::before {
+  padding: 1px;
+  background: radial-gradient(260px circle at var(--vx, 50%) var(--vy, 50%),
+      rgba(78, 223, 212, 0.8),
+      rgba(78, 223, 212, 0.12) 55%,
+      transparent 72%);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* The rail stops for a quote being read, and only for that. Keying the pause
+     off the band meant crossing the heading — or the empty strip above the
+     cards — was enough to freeze it. :has() is the only way to let a hovered
+     card reach back up to the element carrying the animation, and it is gated
+     with everything else behind a real pointer: on touch :hover sticks after a
+     tap, which would leave the rail stopped for good. */
+  .voices-track:has(.voice-card:hover) {
+    animation-play-state: paused;
+  }
+
+  .voice-card:hover::before,
+  .voice-card:hover::after {
+    opacity: 1;
+  }
+
+  .voices-track:hover .voice-card {
+    opacity: 0.45;
+  }
+
+  .voices-track .voice-card:hover {
+    opacity: 1;
+  }
+}
+
+/* The spotlight is a crossfade, not movement, so it survives reduced motion —
+   it just arrives without the ramp. */
+@media (prefers-reduced-motion: reduce) {
+  .voice-card::before,
+  .voice-card::after {
+    transition-duration: 0.01ms;
+  }
 }

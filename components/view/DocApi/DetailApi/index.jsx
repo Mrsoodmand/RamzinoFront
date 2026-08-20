@@ -31,7 +31,7 @@ function DetailSection() {
             </li>
           </ul>
         </div>
-        <div className="w-[371px] min-w-[371px]">
+        <div className="w-full max-w-[371px] sm:min-w-[371px]">
           <h1 className="flex 2md:hidden gap-1 sm:gap-[14px] items-center justify-center sm:justify-start font-semibold text-[21px] sm:text-[30px] text-title">
             <IconCode className="dark:[&>path]:stroke-[#FFFFFF] scale-75 sm:scale-100" />
             امکانات API رمزینو
@@ -42,7 +42,7 @@ function DetailSection() {
             layout="fixed"
             width={371}
             height={371}
-            className="dark:hidden max-w-[366px] sm:max-w-[371px]"
+            className="dark:hidden w-full max-w-[366px] sm:max-w-[371px]"
           />
           <Image
             src="/images/api-balon-dark.png"
@@ -50,7 +50,7 @@ function DetailSection() {
             layout="fixed"
             width={371}
             height={371}
-            className="hidden dark:block max-w-[366px] sm:max-w-[371px]"
+            className="hidden dark:block w-full max-w-[366px] sm:max-w-[371px]"
           />
         </div>
       </div>

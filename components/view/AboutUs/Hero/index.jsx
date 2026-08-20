@@ -31,7 +31,7 @@ function HeroSection({ data }) {
             height={410}
             priority
             loading="eager"
-            className="lg:animate-pulse max-w-[305px] sm:max-w-[370px] mx-auto"
+            className="lg:animate-pulse w-full max-w-[305px] sm:max-w-[370px] mx-auto"
           />
         </div>
       </div>

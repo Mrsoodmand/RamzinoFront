@@ -1,101 +1,59 @@
-import ItemFaq from "components/common/Faqs/ItemFaq";
-import classes from "hooks/classes";
-import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import FaqTabs from "components/common/Faqs/FaqTabs";
+import FaqList from "components/common/Faqs/FaqList";
+import { useMemo, useState } from "react";
 
-const IconUser = dynamic(
-  () => import("components/view/Faqs/icons/IconUser.svg"),
-  { ssr: false }
-);
-
+// The FAQ page shares the home section's category chips and accordion, so the
+// two surfaces read as one system. The old illustrated rail — 120px buttons
+// with 93px circle icons down the side — is gone: categories are a filter, and
+// giving a filter its own column pushed the answers into a narrow gutter.
+// Reclaiming the full width is what makes two columns of answers possible.
 function List({ faqs, categoryList }) {
-  const [catSelect, setCatSelect] = useState(null);
-  const [open, setOpen] = useState(0);
-  const keys = categoryList ? Object.keys(categoryList) : [];
+  const [chosen, setChosen] = useState(null);
+  const [open, setOpen] = useState(null);
 
-  useEffect(() => {
-    if (categoryList) {
-      const keys = Object.keys(categoryList);
+  const categories = useMemo(
+    () =>
+      Object.entries(categoryList || {}).map(([id, label]) => ({ id, label })),
+    [categoryList]
+  );
 
-      setCatSelect(keys[0]);
-    }
-  }, [categoryList]);
+  // Falling back to the first category during render rather than setting it in
+  // an effect: this page is server-rendered for search engines, and an effect
+  // would ship HTML with the chips present and every answer missing.
+  const catSelect = chosen ?? categories[0]?.id ?? null;
+
+  // The API keys answers by category, and the ids only have to be unique
+  // within the rendered list — prefixing with the category keeps them stable
+  // when the reader switches tabs.
+  const items = useMemo(() => {
+    const list = (faqs || {})[catSelect];
+    if (!Array.isArray(list)) return [];
+
+    return list.map((item, index) => ({ ...item, id: `${catSelect}-${index}` }));
+  }, [faqs, catSelect]);
+
+  const selectCategory = (id) => {
+    setOpen(null);
+    setChosen(id);
+  };
 
   return (
     <section className="container my-[27px] sm:my-11">
-      <div className="fade-in flex items-start flex-col 2md:flex-row gap-[39px] lg:gap-[26px]">
-        <div className="center 2md:hidden bg-themeColor dark:bg-[#032934] rounded-[7px] w-full h-[46px] overflow-auto none-scroll gap-1.5 px-2">
-          {Object.values(categoryList || {})?.map((e, i) => (
-            <button
-              key={i}
-              className={classes(
-                "full-center text-[#171B23] font-medium text-[15px] min-w-fit rounded-[3px] h-[34px] px-3.5 opacity-80 dark:opacity-100",
-                keys[i] === catSelect
-                  ? "bg-white dark:bg-primary"
-                  : "dark:text-[#E3E2E1]"
-              )}
-              onClick={() => {
-                setOpen(0);
-                setCatSelect(keys[i]);
-              }}
-            >
-              {e}
-            </button>
-          ))}
-        </div>
-        <ul className="fade-in h-fit w-[251px] min-w-[251px] sticky top-3 hidden 2md:block">
-          {Object.values(categoryList || {})?.map((e, i) => (
-            <li key={i}>
-              <button
-                className={classes(
-                  "center gap-2.5 h-[120px] w-full text-title font-semibold px-2.5 rounded-[4px] group dark:font-medium",
-                  keys[i] === catSelect
-                    ? "bg-white"
-                    : "hover:bg-[#f3f3f3] dark:hover:bg-[#043746]"
-                )}
-                onClick={() => {
-                  setOpen(0);
-                  setCatSelect(keys[i]);
-                }}
-              >
-                <span
-                  className={classes(
-                    "full-center w-[93px] h-[91px] rounded-full",
-                    keys[i] === catSelect
-                      ? "bg-[#4EDFD4]"
-                      : "bg-[#EDEDED] dark:bg-[#032934] group-hover:bg-white"
-                  )}
-                >
-                  <IconUser
-                    className={
-                      keys[i] === catSelect
-                        ? ""
-                        : "dark:[&>path]:stroke-[#EDEDED]"
-                    }
-                  />
-                </span>
-                {e}
-              </button>
-            </li>
-          ))}
-        </ul>
-        <div className="w-full h-fit sticky top-3">
-          <div className="text-title font-semibold text-[18px] mb-[20px] 2md:hidden">
-            سوالات خرید و فروش
-          </div>
-          <ul>
-            {typeof (faqs || {})[catSelect] == "undefined"
-              ? []
-              : faqs[catSelect]?.map((e, i) => (
-                  <ItemFaq
-                    key={i}
-                    i={i}
-                    open={open}
-                    setOpen={setOpen}
-                    data={e}
-                  />
-                ))}
-          </ul>
+      <div className="fade-in">
+        <FaqTabs
+          items={categories}
+          value={catSelect}
+          onChange={selectCategory}
+        />
+
+        <div className="mt-7 sm:mt-9">
+          <FaqList
+            items={items}
+            open={open}
+            setOpen={setOpen}
+            columns={2}
+            twoColFrom="md"
+          />
         </div>
       </div>
     </section>

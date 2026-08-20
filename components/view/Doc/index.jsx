@@ -170,7 +170,7 @@ function SingleDocPage({ doc }) {
         ) : null}
       </article>
 
-      <section className="w-full 2md:w-[390px] min-w-[390px] bg-[#031F1D] py-10 sm:pt-14 px-6 2md:sticky 2md:top-[85px] 2md:self-start 2md:max-h-[calc(100vh-85px)] 2md:overflow-auto">
+      <section className="w-full 2md:w-[390px] 2md:min-w-[390px] bg-[#031F1D] py-10 sm:pt-14 px-6 2md:sticky 2md:top-[85px] 2md:self-start 2md:max-h-[calc(100vh-85px)] 2md:overflow-auto">
         <div className="mb-6 text-[#fff] font-semibold text-base center gap-4">
           <i className="block bg-[#00AF8E] h-[19px] w-1"></i>
           نمونه درخواست

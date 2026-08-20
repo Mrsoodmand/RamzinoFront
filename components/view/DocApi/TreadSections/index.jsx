@@ -43,7 +43,7 @@ function TreadSections() {
           پشتیبانی کنید
         </p>
       </div>
-      <div className="grid grid-cols-12 gap-y-4 lg:gap-y-10 gap-x-7">
+      <div className="grid grid-cols-12 gap-y-4 lg:gap-y-10 gap-x-0 lg:gap-x-7">
         <div className="fade-in hidden lg:full-center col-span-12 bg-white shadow-[0px_0px_74px_0px_#0000000A] rounded-[5px] min-h-[273px] flex-col gap-x-[22px]">
           <div className="center-between w-full max-w-[92%] xl:max-w-[84%]">
             <div className="full-center flex-col text-[#404040] dark:text-[#F5F5F5] text-xl font-semibold min-w-[152px]">

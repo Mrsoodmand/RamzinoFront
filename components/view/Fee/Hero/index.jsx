@@ -20,14 +20,14 @@ function Hero() {
           </button>
         </div>
 
-        <div className="w-[366px] sm:w-[414px] min-w-[366px] sm:min-w-[414px]">
+        <div className="w-full max-w-[366px] sm:w-[414px] sm:min-w-[414px]">
           <Image
             src="/images/ethereum-technology.png"
             alt="کارمزد ها برای کاربران ما"
             layout="fixed"
             width={414}
             height={414}
-            className="max-w-[366px] sm:max-w-[414px]"
+            className="w-full max-w-[366px] sm:max-w-[414px]"
           />
         </div>
       </div>

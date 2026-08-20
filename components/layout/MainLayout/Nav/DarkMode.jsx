@@ -5,35 +5,47 @@ import IconLight from "icons/Layout/IconLight.svg";
 import AddIcon from "components/common/addIcon";
 import classes from "hooks/classes";
 
+// Flips the theme with the global `transition: all` suppressed for the swap.
+// Left on, the switch queues a transition on every animatable property of every
+// node at once; WebKit on iOS drops part of that batch, and the dropped nodes
+// stay painted in the old theme until a scroll forces them to restyle.
+const applyTheme = (dark) => {
+  const body = document.querySelector("body");
+  if (!body) return;
+
+  body.classList.add("theme-switching");
+
+  body.setAttribute("data-theme", dark ? "dark" : "light");
+  body.classList.toggle("dark", dark);
+  body.classList.toggle("light", !dark);
+
+  // Reading a layout property commits the new colours while transitions are
+  // still off, so nothing is left mid-flight when they come back on. It also
+  // means re-enabling them afterwards animates nothing, because by then the
+  // values are already the current ones.
+  void body.offsetWidth;
+
+  // Both, because neither alone is reliable: rAF does not fire while the tab is
+  // in the background, which would leave every transition on the site disabled
+  // until the user came back. Removing twice is harmless.
+  const restore = () => body.classList.remove("theme-switching");
+  window.requestAnimationFrame(restore);
+  window.setTimeout(restore, 0);
+};
+
 export const handelChangeTheme = () => {
-  if (document.querySelector("body")?.classList?.contains("dark")) {
-    localStorage.setItem("theme", "light");
-    document.querySelector("body")?.setAttribute("data-theme", "light");
-    document.querySelector("body")?.classList?.add("light");
-    document.querySelector("body")?.classList?.remove("dark");
-  } else {
-    localStorage.setItem("theme", "dark");
-    document.querySelector("body")?.setAttribute("data-theme", "dark");
-    document.querySelector("body")?.classList?.remove("light");
-    document.querySelector("body")?.classList?.add("dark");
-  }
+  const dark = !document.querySelector("body")?.classList?.contains("dark");
+  localStorage.setItem("theme", dark ? "dark" : "light");
+  applyTheme(dark);
 };
 
 export default function DarkMode() {
   const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
-    const theme = localStorage.getItem("theme") || "light";
-
-    if (theme == "light") {
-      document.querySelector("body")?.setAttribute("data-theme", "light");
-      document.querySelector("body")?.classList?.add("light");
-      document.querySelector("body")?.classList?.remove("dark");
-    } else if (theme == "dark") {
-      document.querySelector("body")?.setAttribute("data-theme", "dark");
-      document.querySelector("body")?.classList?.remove("light");
-      document.querySelector("body")?.classList?.add("dark");
-    }
+    // Same suppression on first paint: restoring a saved dark theme after
+    // hydration would otherwise cross-fade the whole page for half a second.
+    applyTheme(localStorage.getItem("theme") === "dark");
   }, []);
 
   return (

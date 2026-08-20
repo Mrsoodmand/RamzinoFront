@@ -206,7 +206,11 @@ function Services() {
           حرفه‌ای که دغدغه دریافت پول، تسویه حساب و امنیت را برای همیشه از ذهن
           شما پاک می‌کند.
         </span>
-        <div className="grid grid-cols-12 gap-8">
+        {/* Single column until lg. Twelve tracks plus gap-8 need 11 x 32px of
+            gutter before any content fits, which is more than a 320px phone has
+            to give, so the row was forced wider than the screen even though
+            every child spans the full width down here. */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="col-span-full lg:col-span-8">
             <div className="flex items-center flex-col sm:flex-row justify-between gap-4">
               <div
@@ -1880,7 +1884,7 @@ function Services() {
           alt="airdrop-1"
           className="absolute right-0 top-20 max-w-[400px] w-[30vw]"
         />
-        <div className="flex flex-col justify-center items-center gap-6 w-[400px] shrink-0 lg:shrink mx-auto">
+        <div className="flex flex-col justify-center items-center gap-6 w-full max-w-[400px] shrink-0 lg:shrink mx-auto">
           <div className="opacity-0 animate-fade-in-up w-[75px] h-[75px] rounded-full flex items-center justify-center bg-[#67CCCB] dark:bg-[#67CCCB]">
             <svg
               width="41"
@@ -1954,7 +1958,7 @@ function Services() {
           </Link>
 
           <div
-            className="opacity-0 animate-fade-in-up w-full flex items-center justify-center gap-6"
+            className="opacity-0 animate-fade-in-up w-full flex flex-wrap sm:flex-nowrap items-center justify-center gap-6"
             style={{ animationDelay: "460ms" }}
           >
             <Link

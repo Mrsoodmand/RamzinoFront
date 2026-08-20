@@ -3,8 +3,12 @@ import IconInstagram from "icons/Home/IconInstagram.svg";
 import Image from "next/image";
 
 function BannerInstagram() {
+  // The decorative star cluster below is parked with percentage translates and
+  // scatters its stars at hand-picked offsets, so on narrow screens it reaches
+  // past the left edge. Clipping the band on x only keeps the cluster's
+  // deliberate vertical bleed while stopping it from widening the page.
   return (
-    <section className="fade-in flex items-end lg:items-center pb-8 lg:pb-0 bg-primary min-h-[593px] 2md:min-h-[293px] w-full my-44">
+    <section className="fade-in flex items-end lg:items-center pb-8 lg:pb-0 bg-primary min-h-[593px] 2md:min-h-[293px] w-full my-44 overflow-x-clip">
       <div className="container relative">
         <div className="sm:px-8 max-w-full 2md:max-w-[50%]  fade-in">
           <h4 className="text-[#1D1D1D] font-semibold text-[22px] sm:text-[30px] mb-5">

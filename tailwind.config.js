@@ -78,6 +78,24 @@ module.exports = {
             opacity: "0",
           },
         },
+        // Testimonial rail. The track holds the list twice, so translating by
+        // exactly half its width lands the copy where the original started and
+        // the loop has no visible seam. RTL drifts the other way.
+        voicesDrift: {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(50%)" },
+        },
+        // Backdrop for the testimonial rail. Two glows on periods that never
+        // divide into each other, so the wash never settles into a shape a
+        // visitor can recognise twice.
+        auroraDriftA: {
+          "0%, 100%": { transform: "translate3d(0, 0, 0) scale(1)" },
+          "50%": { transform: "translate3d(-6%, 5%, 0) scale(1.14)" },
+        },
+        auroraDriftB: {
+          "0%, 100%": { transform: "translate3d(0, 0, 0) scale(1.1)" },
+          "50%": { transform: "translate3d(7%, -4%, 0) scale(0.95)" },
+        },
         tipPing: {
           "0%": { transform: "scale(1)", opacity: "0.6" },
           "100%": { transform: "scale(2.6)", opacity: "0" },
@@ -147,6 +165,9 @@ module.exports = {
         // Slow continuous turn for large landing artwork.
         "spin-360": "spin360 45s linear infinite",
         "rail-packet": "railPacket 3.6s linear infinite",
+        "voices-drift": "voicesDrift 46s linear infinite",
+        "aurora-a": "auroraDriftA 34s ease-in-out infinite",
+        "aurora-b": "auroraDriftB 47s ease-in-out infinite",
         "tip-ping": "tipPing 1.8s cubic-bezier(0.22, 1, 0.36, 1) infinite",
         "halo-pulse": "haloPulse 2.2s ease-out infinite",
         // Gateway hero backdrop. These share the 9s cycle so the scan, the

@@ -3,7 +3,7 @@ import classes from "hooks/classes";
 function Detail() {
   return (
     <section className="fade-in container mt-12 lg:mt-4">
-      <div className="center bg-white rounded-[5px] h-[47px] sm:h-[57px] px-2 w-fit gap-2 sm:gap-2.5">
+      <div className="center bg-white rounded-[5px] h-[47px] sm:h-[57px] px-2 w-fit max-w-full overflow-x-auto none-scroll gap-2 sm:gap-2.5">
         <button
           className={classes(
             "text-[13px] sm:text-base min-w-fit full-center font-semibold h-[33px] sm:h-[41px] px-[18px] sm:px-[22px] rounded-[5px]",

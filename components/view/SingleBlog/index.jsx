@@ -1,24 +1,36 @@
 import LastBlogs from "components/common/LastBlogs";
-import SliderBanners from "../Blogs/LastBlogsAndSwap/SliderBanners";
-import Tags, { Tag } from "../Blogs/LastBlogsAndSwap/Tags";
-import Swap from "../SingleCurrency/SectionDetailsAndSwap/Swap";
+import { Tag } from "../Blogs/LastBlogsAndSwap/Tags";
 import Comments from "./Comments";
 import HeroBlog from "./HeroBlog";
-import Rating from "./Rating";
-import Result from "./Result";
+import MobileToc from "./MobileToc";
+import ReadingRail from "./ReadingRail";
+import ShareRow from "./ReadingRail/ShareRow";
+import {
+  ARTICLE_ID,
+  readingMinutes,
+  useHeadings,
+  useReadingState,
+  useSearchIndex,
+} from "./reading";
 import VideoSection from "../Crypto/VideoSection";
 import BannerProgram from "components/common/BannerProgram";
 
 function SingleBlogPage({ data }) {
+  // Read once here so the desktop rail and the mobile sheet share a single
+  // set of scroll listeners instead of running one each.
+  const headings = useHeadings(data?.blog?.long_detail);
+  const { activeId, progress } = useReadingState(headings);
+  const blocks = useSearchIndex(data?.blog?.long_detail, headings);
+  const minutes = readingMinutes(data?.blog?.long_detail);
+
   return (
     <>
       <main className="container mt-1 sm:mt-10">
         <div className="flex gap-5 xl:gap-10">
           <article className="w-full min-w-0">
             <HeroBlog data={data?.blog} />
-            <Result />
             <div
-              id="main-blog"
+              id={ARTICLE_ID}
               className="fade-in mt-4 sm:mt-5 mainBlog dark:text-[#fff] leading-8 opacity-95"
               dangerouslySetInnerHTML={{ __html: data?.blog?.long_detail }}
             />
@@ -34,19 +46,38 @@ function SingleBlogPage({ data }) {
                 ))}
               </div>
             </div>
-            {/* <Rating /> */}
+
+            {/* Below lg the rail is off screen, so sharing lands here instead —
+                at the end of the text, where a reader who has finished is the
+                one most likely to pass it on. */}
+            <ShareRow
+              title={data?.blog?.title}
+              className="fade-in mt-6 lg:hidden"
+            />
           </article>
-          <div className="fade-in hidden lg:block xl:w-[466px] xl:min-w-[466px] w-[370px] min-w-[370px]">
-            {/* <Swap /> */}
-            <div className="sticky top-28">
-              <Tags data={data?.tags} />
-              <SliderBanners data={data?.sideBarSlider} />
-            </div>
-          </div>
+
+          <ReadingRail
+            blog={data?.blog}
+            promo={data?.sideBarSlider}
+            headings={headings}
+            blocks={blocks}
+            activeId={activeId}
+            progress={progress}
+            minutes={minutes}
+          />
         </div>
       </main>
+
+      <MobileToc
+        headings={headings}
+        blocks={blocks}
+        activeId={activeId}
+        progress={progress}
+        minutes={minutes}
+      />
+
       <Comments post_id={data?.blog?.id} />
-      <LastBlogs data={data?.related} />
+      <LastBlogs data={data?.related} title="مقالات مرتبط" />
       <VideoSection />
       <BannerProgram />
     </>
